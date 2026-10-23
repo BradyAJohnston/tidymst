@@ -15,7 +15,10 @@
 #' tidymst_example("dppr10-cy5_traces.xlsx")
 tidymst_example <- function(file = NULL) {
   check_string(file, allow_null = TRUE)
-  files <- dir(system.file("extdata", package = "tidymst"))
+  files <- sort(
+    dir(system.file("extdata", package = "tidymst")),
+    method = "radix"
+  )
   if (is.null(file)) {
     return(files)
   }

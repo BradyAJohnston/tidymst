@@ -17,7 +17,8 @@ laser was on; look up the one used in MO.Affinity Analysis with
 }
 \value{
 A tibble with one row per capillary, with the columns of \code{data}
-other than \code{time} and \code{fluorescence}, plus \code{response_type} (always
+other than \code{time}, \code{fluorescence} and \code{fluorescence_raw}, plus
+\code{response_type} (always
 \code{"fnorm"}) and \code{response}, the Fnorm in per mille. This is the same form as
 \code{\link[=read_mst_dose_response]{read_mst_dose_response()}}, ready for \code{\link[=mst_fit]{mst_fit()}}.
 }

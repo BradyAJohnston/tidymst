@@ -1,10 +1,13 @@
 #' Detect the type of a MO.Affinity Analysis export
 #'
-#' MO.Affinity Analysis records which view an export was made from in its
-#' `Exported from:` field. `mst_export_type()` reads that field and returns a
-#' short identifier, which [read_mst()] uses to pick a reader.
+#' MO.Affinity Analysis records which view an Excel export was made from in
+#' its `Exported from:` field. `mst_export_type()` reads that field and returns
+#' a short identifier, which [read_mst()] uses to pick a reader. It also
+#' recognises the project files written by MO.Control (`.moc`) and
+#' MO.Affinity Analysis (`.nta`), which are SQLite databases.
 #'
-#' @param path Path to an `.xlsx` file exported from MO.Affinity Analysis.
+#' @param path Path to an `.xlsx` file exported from MO.Affinity Analysis, or
+#'   a `.moc` or `.nta` project file.
 #'
 #' @returns A string, one of:
 #'   * `"traces"`: MST Traces, including the Raw Data Inspection variant.
@@ -13,12 +16,20 @@
 #'   * `"compare_grid"`: Compare Results (Grid).
 #'   * `"dose_response_grouped"`: Dose-Response (Grouped).
 #'   * `"dose_response_flat"`: Dose-Response (Flat).
+#'   * `"affinity_project"`: an MO.Affinity Analysis project (`.nta`), with
+#'     both the measurements and their analysis.
+#'   * `"control_project"`: an MO.Control project (`.moc`), with the
+#'     measurements only.
 #' @export
 #' @examples
 #' mst_export_type(tidymst_example("dppr10-cy5_traces.xlsx"))
 #' mst_export_type(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
+#' mst_export_type(tidymst_example("dppr10-cy5.nta"))
 mst_export_type <- function(path) {
   check_path(path)
+  if (is_sqlite(path)) {
+    return(project_type(path))
+  }
   exported_from <- exported_from(path)
 
   type <- if (!is.na(exported_from)) {
@@ -42,6 +53,11 @@ export_types <- c(
   "Dose-Response (Grouped)" = "dose_response_grouped",
   "Dose-Response (Flat)" = "dose_response_flat"
 )
+
+is_sqlite <- function(path) {
+  header <- readBin(path, "raw", n = 16)
+  identical(header, c(charToRaw("SQLite format 3"), as.raw(0)))
+}
 
 exported_from <- function(path) {
   sheets <- readxl::excel_sheets(path)

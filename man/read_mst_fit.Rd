@@ -7,7 +7,8 @@
 read_mst_fit(path)
 }
 \arguments{
-\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis.}
+\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis, or
+a \code{.moc} or \code{.nta} project file.}
 }
 \value{
 A tibble with one row per merge set, with columns:
@@ -27,7 +28,10 @@ concentration, its confidence, and the Hill coefficient.
 }
 
 Grid exports also include fit statistics such as \code{std_error},
-\code{reduced_chi_sq} and \code{signal_to_noise}.
+\code{reduced_chi_sq} and \code{signal_to_noise}. MO.Affinity Analysis project
+files (\code{.nta}) give one row per merge set per model fitted, with
+standard errors instead of confidences; see the Project files section of
+\code{\link[=read_mst]{read_mst()}}.
 }
 \description{
 Reads the fits that MO.Affinity Analysis made to each merge set. These are

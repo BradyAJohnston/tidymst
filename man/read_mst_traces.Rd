@@ -7,7 +7,8 @@
 read_mst_traces(path)
 }
 \arguments{
-\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis.}
+\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis, or
+a \code{.moc} or \code{.nta} project file.}
 }
 \value{
 A tibble with one row per time point per capillary. Alongside
@@ -18,7 +19,8 @@ the sample and measurement settings of each capillary, it has columns:
 \item \code{fluorescence}: fluorescence, normalised by MO.Affinity Analysis.
 }
 
-Concentrations are molar.
+Concentrations are molar. Project files give some extra columns; see the
+Project files section of \code{\link[=read_mst]{read_mst()}}.
 }
 \description{
 Reads an MST Traces export: the fluorescence of each capillary over time,
@@ -27,4 +29,5 @@ be recalculated from the traces with \code{\link[=mst_fnorm]{mst_fnorm()}}.
 }
 \examples{
 read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
+read_mst_traces(tidymst_example("dppr10-cy5.nta"))
 }

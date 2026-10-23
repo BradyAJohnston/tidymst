@@ -7,7 +7,8 @@
 mst_export_type(path)
 }
 \arguments{
-\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis.}
+\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis, or
+a \code{.moc} or \code{.nta} project file.}
 }
 \value{
 A string, one of:
@@ -18,14 +19,21 @@ A string, one of:
 \item \code{"compare_grid"}: Compare Results (Grid).
 \item \code{"dose_response_grouped"}: Dose-Response (Grouped).
 \item \code{"dose_response_flat"}: Dose-Response (Flat).
+\item \code{"affinity_project"}: an MO.Affinity Analysis project (\code{.nta}), with
+both the measurements and their analysis.
+\item \code{"control_project"}: an MO.Control project (\code{.moc}), with the
+measurements only.
 }
 }
 \description{
-MO.Affinity Analysis records which view an export was made from in its
-\verb{Exported from:} field. \code{mst_export_type()} reads that field and returns a
-short identifier, which \code{\link[=read_mst]{read_mst()}} uses to pick a reader.
+MO.Affinity Analysis records which view an Excel export was made from in
+its \verb{Exported from:} field. \code{mst_export_type()} reads that field and returns
+a short identifier, which \code{\link[=read_mst]{read_mst()}} uses to pick a reader. It also
+recognises the project files written by MO.Control (\code{.moc}) and
+MO.Affinity Analysis (\code{.nta}), which are SQLite databases.
 }
 \examples{
 mst_export_type(tidymst_example("dppr10-cy5_traces.xlsx"))
 mst_export_type(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
+mst_export_type(tidymst_example("dppr10-cy5.nta"))
 }

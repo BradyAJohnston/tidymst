@@ -11,6 +11,8 @@ into tidy tibbles, and fits MST binding models.
 - All export formats are parsed by the block parser in `R/utils-read.R`.
   Sheets are read as text and typed in `coerce_columns()`; add new metadata
   keys to `key_names` so every reader names them consistently.
+- Project files (`.moc`, `.nta`) are SQLite databases, read in `R/read-db.R`. Traces are pairs of little-endian float32 (time, raw fluorescence); capillary scans are 4 float32 per point (position in mm, unused, unused, fluorescence), converted to capillary index with 4.5 mm per capillary. Concentrations in `Annotation` are stored in mM.
+- Project files contain personal data (operator name and hashed password in `tOperator`, instrument serial and MAC in `tDevice`/`tOptics`). Never return these, and sanitise any project file before adding it to `inst/extdata`, then VACUUM.
 - `inst/extdata` holds real exports. Tests check results against values
   MO.Affinity Analysis computed itself (e.g. Fnorm in the Flat export, Kd in
   the Compare export), so keep those cross-checks passing.

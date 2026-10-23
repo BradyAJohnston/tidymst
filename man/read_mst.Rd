@@ -7,7 +7,8 @@
 read_mst(path)
 }
 \arguments{
-\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis.}
+\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis, or
+a \code{.moc} or \code{.nta} project file.}
 }
 \value{
 A tibble.
@@ -23,10 +24,46 @@ its main table:
 \item Compare Results (Chart) and Dose-Response (Grouped and Flat):
 \code{\link[=read_mst_dose_response]{read_mst_dose_response()}}.
 \item Compare Results (Grid): \code{\link[=read_mst_fit]{read_mst_fit()}}.
+\item MO.Control (\code{.moc}) and MO.Affinity Analysis (\code{.nta}) project files:
+\code{\link[=read_mst_traces]{read_mst_traces()}}.
 }
 }
+\section{Project files}{
+
+MO.Control (\code{.moc}) and MO.Affinity Analysis (\code{.nta}) save projects as
+SQLite databases, which hold everything the Excel exports are made from.
+\code{\link[=read_mst_traces]{read_mst_traces()}}, \code{\link[=read_mst_capillary_scan]{read_mst_capillary_scan()}} and \code{\link[=read_mst_metadata]{read_mst_metadata()}}
+read both kinds of project; \code{\link[=read_mst_dose_response]{read_mst_dose_response()}} and \code{\link[=read_mst_fit]{read_mst_fit()}}
+read MO.Affinity Analysis projects, which include the analysis. They return
+the same columns as for the Excel exports, with these differences:
+\itemize{
+\item An \code{analysis_set} column names the analysis set, as a project can hold
+several. A trace in more than one analysis set appears once for each.
+MO.Control projects have no analysis, so \code{analysis_set}, \code{merge_set} and
+\code{included} are missing, and \code{run} is named as MO.Affinity Analysis would
+name it.
+\item Traces also have \code{fluorescence_raw}, the fluorescence in raw counts.
+\code{fluorescence} is normalised to the mean before the laser switches on,
+which is within about 0.2\% of MO.Affinity Analysis's normalisation.
+\item Measurement times are in UTC (the Excel exports use local time), and
+\code{temperature} is the measured temperature in degrees Celsius.
+\item \code{mst_power} is a percentage, such as \code{"40\%"}, rather than a label such as
+\code{"Medium"}, and \code{excitation_type} is not available.
+\item The fits from \code{\link[=read_mst_fit]{read_mst_fit()}} are those saved in the project, which may
+differ from an export made at another time. They include each parameter's
+standard error as reported by MO.Affinity Analysis (\verb{*_std_error}), and
+\code{fixed} lists any parameters that were fixed.
+}
+
+Fit curves (\code{\link[=read_mst_fit_curve]{read_mst_fit_curve()}}) are not read from projects; calculate
+them with \code{\link[=mst_fit]{mst_fit()}} and \code{\link[=mst_curve]{mst_curve()}}.
+}
+
 \examples{
 read_mst(tidymst_example("dppr10-cy5_dose-response-flat.xlsx"))
+
+# A project file from MO.Affinity Analysis
+read_mst(tidymst_example("dppr10-cy5.nta"))
 }
 \seealso{
 \code{\link[=read_mst_metadata]{read_mst_metadata()}} for the file-level header, and

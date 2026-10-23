@@ -14,6 +14,14 @@ platform = "aarch64-apple-darwin"
 bioc-version = "3.23"
 
 [[targets.direct_dependencies]]
+name = "DBI"
+constraint = "*"
+
+[[targets.direct_dependencies]]
+name = "RSQLite"
+constraint = "*"
+
+[[targets.direct_dependencies]]
 name = "cli"
 constraint = "*"
 
@@ -56,6 +64,10 @@ constraint = "*"
 [[targets.direct_dependencies]]
 name = "testthat"
 constraint = ">= 3.0.0"
+
+[[targets.direct_dependencies]]
+name = "withr"
+constraint = "*"
 
 [[targets.packages]]
 package = "praise"
@@ -310,7 +322,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2024-05-17/bin/macosx/sonoma-arm64/contrib/4.6/cachem_1.1.0.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/cachem_1.1.0-c7485274.tgz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "550839fc2ae5d865db475ba2c1714144f07fa0c052c72135b0e4a70287492e21" }
 
 [[targets.packages]]
@@ -401,7 +416,10 @@ platform = "aarch64-apple-darwin"
 dependencies = []
 sources = ["https://p3m.dev/cran/2024-05-16/bin/macosx/sonoma-arm64/contrib/4.6/fastmap_1.2.0.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/fastmap_1.2.0-50e8363a.tgz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "b1da04a2915d1d057f3c2525e295ef15016a64e6667eac83a14641bbd83b9246" }
 
 [[targets.packages]]
@@ -468,7 +486,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2021-11-29/bin/macosx/sonoma-arm64/contrib/4.6/memoise_2.0.1.tgz"]
 target = "bin/macosx/sonoma-arm64/4.6/memoise_2.0.1-d2e8eb41.tgz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "f85034ee98c8ca07fb3cd826142c1cd1e1e5747075a94c75a45783bbc4fe2deb" }
 
 [[targets.packages]]
@@ -481,6 +502,36 @@ sources = ["https://p3m.dev/cran/2026-09-18/bin/macosx/sonoma-arm64/contrib/4.6/
 target = "bin/macosx/sonoma-arm64/4.6/tinytex_0.61-4ba96a03.tgz"
 groups = ["dev"]
 metadata = { RemoteHash = "78300dc6163911c7de3efbe225c3bf455287c67886ed0e5a04fd347c6eaf2680" }
+
+[[targets.packages]]
+package = "RSQLite"
+version = "3.53.3"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "bit64",
+    "rlang",
+    "DBI",
+    "cpp11",
+    "memoise",
+    "blob",
+    "pkgconfig",
+]
+sources = ["https://p3m.dev/cran/2026-07-01/bin/macosx/sonoma-arm64/contrib/4.6/RSQLite_3.53.3.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/RSQLite_3.53.3-421c200f.tgz"
+groups = ["main"]
+metadata = { RemoteHash = "82946aac5e2869da5fdaf57d0e4afeee3d4deac21d9eaeffb5f743273a93736c", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
+package = "DBI"
+version = "1.3.0"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-02-26/bin/macosx/sonoma-arm64/contrib/4.6/DBI_1.3.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/DBI_1.3.0-5360a0a2.tgz"
+groups = ["main"]
+metadata = { RemoteHash = "13def8e90cbe41205a0dfcf585a6a7ea79ce10d45969789e82613c7ce3d5fb18" }
 
 [[targets.packages]]
 package = "htmltools"
@@ -1062,11 +1113,49 @@ groups = ["dev"]
 metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40774789829cd" }
 
 [[targets.packages]]
+package = "bit"
+version = "4.6.0"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = []
+sources = ["https://p3m.dev/cran/2025-03-07/bin/macosx/sonoma-arm64/contrib/4.6/bit_4.6.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/bit_4.6.0-a639bb1d.tgz"
+groups = ["main"]
+metadata = { RemoteHash = "48fe21c5d04c7b724d695eeb60074395c0c631a7fb234e2075de92471445de08" }
+
+[[targets.packages]]
+package = "blob"
+version = "1.3.0"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = [
+    "rlang",
+    "vctrs",
+]
+sources = ["https://p3m.dev/cran/2026-01-15/bin/macosx/sonoma-arm64/contrib/4.6/blob_1.3.0.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/blob_1.3.0-54a0849f.tgz"
+groups = ["main"]
+metadata = { RemoteHash = "d4d2aeb8d17683bbfc256a7541e282af9663a752988a21a6ba72a4ab268c7331" }
+
+[[targets.packages]]
+package = "bit64"
+version = "4.8.6"
+binary = true
+platform = "aarch64-apple-darwin"
+dependencies = ["bit"]
+sources = ["https://p3m.dev/cran/2026-09-02/bin/macosx/sonoma-arm64/contrib/4.6/bit64_4.8.6.tgz"]
+target = "bin/macosx/sonoma-arm64/4.6/bit64_4.8.6-8edb959f.tgz"
+groups = ["main"]
+metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7da933d554b45" }
+
+[[targets.packages]]
 package = "tidymst"
 version = "0.0.0.9000"
 binary = false
 platform = "source"
 dependencies = [
+    "DBI",
+    "RSQLite",
     "cli",
     "dplyr",
     "readxl",
@@ -1079,12 +1168,20 @@ sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "2585262513d2ac50405dc51545f66b45fa9fff88242c0380c4da69f2ff2ab411", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
+metadata = { RemoteSha = "29dab9081ee5e3dff465fa4e3f54a99f14ea9a86aa34f1203912cabc65578ec8", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
 platform = "source"
 bioc-version = "3.23"
+
+[[targets.direct_dependencies]]
+name = "DBI"
+constraint = "*"
+
+[[targets.direct_dependencies]]
+name = "RSQLite"
+constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "cli"
@@ -1129,6 +1226,10 @@ constraint = "*"
 [[targets.direct_dependencies]]
 name = "testthat"
 constraint = ">= 3.0.0"
+
+[[targets.direct_dependencies]]
+name = "withr"
+constraint = "*"
 
 [[targets.packages]]
 package = "praise"
@@ -1383,7 +1484,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2024-05-17/src/contrib/cachem_1.1.0.tar.gz"]
 target = "src/cachem_1.1.0-c7485274.tar.gz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "550839fc2ae5d865db475ba2c1714144f07fa0c052c72135b0e4a70287492e21" }
 
 [[targets.packages]]
@@ -1474,7 +1578,10 @@ platform = "source"
 dependencies = []
 sources = ["https://p3m.dev/cran/2024-05-16/src/contrib/fastmap_1.2.0.tar.gz"]
 target = "src/fastmap_1.2.0-50e8363a.tar.gz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "b1da04a2915d1d057f3c2525e295ef15016a64e6667eac83a14641bbd83b9246" }
 
 [[targets.packages]]
@@ -1541,7 +1648,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2021-11-29/src/contrib/memoise_2.0.1.tar.gz"]
 target = "src/memoise_2.0.1-d2e8eb41.tar.gz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "f85034ee98c8ca07fb3cd826142c1cd1e1e5747075a94c75a45783bbc4fe2deb" }
 
 [[targets.packages]]
@@ -1554,6 +1664,36 @@ sources = ["https://p3m.dev/cran/2026-09-18/src/contrib/tinytex_0.61.tar.gz"]
 target = "src/tinytex_0.61-4ba96a03.tar.gz"
 groups = ["dev"]
 metadata = { RemoteHash = "78300dc6163911c7de3efbe225c3bf455287c67886ed0e5a04fd347c6eaf2680" }
+
+[[targets.packages]]
+package = "RSQLite"
+version = "3.53.3"
+binary = false
+platform = "source"
+dependencies = [
+    "bit64",
+    "rlang",
+    "DBI",
+    "cpp11",
+    "memoise",
+    "blob",
+    "pkgconfig",
+]
+sources = ["https://p3m.dev/cran/2026-07-01/src/contrib/RSQLite_3.53.3.tar.gz"]
+target = "src/RSQLite_3.53.3-7f642bea.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "82946aac5e2869da5fdaf57d0e4afeee3d4deac21d9eaeffb5f743273a93736c", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
+package = "DBI"
+version = "1.3.0"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-02-26/src/contrib/DBI_1.3.0.tar.gz"]
+target = "src/DBI_1.3.0-5360a0a2.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "13def8e90cbe41205a0dfcf585a6a7ea79ce10d45969789e82613c7ce3d5fb18" }
 
 [[targets.packages]]
 package = "htmltools"
@@ -2140,11 +2280,49 @@ system_requirements = "libuv: libuv-devel (rpm) or libuv1-dev (deb). Alternative
 metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40774789829cd" }
 
 [[targets.packages]]
+package = "bit"
+version = "4.6.0"
+binary = false
+platform = "source"
+dependencies = []
+sources = ["https://p3m.dev/cran/2025-03-07/src/contrib/bit_4.6.0.tar.gz"]
+target = "src/bit_4.6.0-a639bb1d.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "48fe21c5d04c7b724d695eeb60074395c0c631a7fb234e2075de92471445de08" }
+
+[[targets.packages]]
+package = "blob"
+version = "1.3.0"
+binary = false
+platform = "source"
+dependencies = [
+    "rlang",
+    "vctrs",
+]
+sources = ["https://p3m.dev/cran/2026-01-15/src/contrib/blob_1.3.0.tar.gz"]
+target = "src/blob_1.3.0-54a0849f.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "d4d2aeb8d17683bbfc256a7541e282af9663a752988a21a6ba72a4ab268c7331" }
+
+[[targets.packages]]
+package = "bit64"
+version = "4.8.6"
+binary = false
+platform = "source"
+dependencies = ["bit"]
+sources = ["https://p3m.dev/cran/2026-09-02/src/contrib/bit64_4.8.6.tar.gz"]
+target = "src/bit64_4.8.6-8edb959f.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7da933d554b45" }
+
+[[targets.packages]]
 package = "tidymst"
 version = "0.0.0.9000"
 binary = false
 platform = "source"
 dependencies = [
+    "DBI",
+    "RSQLite",
     "cli",
     "dplyr",
     "readxl",
@@ -2157,12 +2335,20 @@ sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "2585262513d2ac50405dc51545f66b45fa9fff88242c0380c4da69f2ff2ab411", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
+metadata = { RemoteSha = "29dab9081ee5e3dff465fa4e3f54a99f14ea9a86aa34f1203912cabc65578ec8", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
 platform = "x86_64-unknown-linux-gnu"
 bioc-version = "3.23"
+
+[[targets.direct_dependencies]]
+name = "DBI"
+constraint = "*"
+
+[[targets.direct_dependencies]]
+name = "RSQLite"
+constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "cli"
@@ -2207,6 +2393,10 @@ constraint = "*"
 [[targets.direct_dependencies]]
 name = "testthat"
 constraint = ">= 3.0.0"
+
+[[targets.direct_dependencies]]
+name = "withr"
+constraint = "*"
 
 [[targets.packages]]
 package = "praise"
@@ -2461,7 +2651,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2024-05-17/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/cachem_1.1.0.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/cachem_1.1.0-c7485274.tar.gz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "550839fc2ae5d865db475ba2c1714144f07fa0c052c72135b0e4a70287492e21" }
 
 [[targets.packages]]
@@ -2552,7 +2745,10 @@ platform = "x86_64-unknown-linux-gnu"
 dependencies = []
 sources = ["https://p3m.dev/cran/2024-05-16/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/fastmap_1.2.0.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/fastmap_1.2.0-50e8363a.tar.gz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "b1da04a2915d1d057f3c2525e295ef15016a64e6667eac83a14641bbd83b9246" }
 
 [[targets.packages]]
@@ -2619,7 +2815,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2021-11-29/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/memoise_2.0.1.tar.gz"]
 target = "bin/linux/manylinux_2_28-x86_64/4.6/memoise_2.0.1-d2e8eb41.tar.gz"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "f85034ee98c8ca07fb3cd826142c1cd1e1e5747075a94c75a45783bbc4fe2deb" }
 
 [[targets.packages]]
@@ -2632,6 +2831,36 @@ sources = ["https://p3m.dev/cran/2026-09-18/bin/linux/manylinux_2_28-x86_64/4.6/
 target = "bin/linux/manylinux_2_28-x86_64/4.6/tinytex_0.61-4ba96a03.tar.gz"
 groups = ["dev"]
 metadata = { RemoteHash = "78300dc6163911c7de3efbe225c3bf455287c67886ed0e5a04fd347c6eaf2680" }
+
+[[targets.packages]]
+package = "RSQLite"
+version = "3.53.3"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "bit64",
+    "rlang",
+    "DBI",
+    "cpp11",
+    "memoise",
+    "blob",
+    "pkgconfig",
+]
+sources = ["https://p3m.dev/cran/2026-07-01/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/RSQLite_3.53.3.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/RSQLite_3.53.3-421c200f.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "82946aac5e2869da5fdaf57d0e4afeee3d4deac21d9eaeffb5f743273a93736c", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
+package = "DBI"
+version = "1.3.0"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-02-26/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/DBI_1.3.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/DBI_1.3.0-5360a0a2.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "13def8e90cbe41205a0dfcf585a6a7ea79ce10d45969789e82613c7ce3d5fb18" }
 
 [[targets.packages]]
 package = "htmltools"
@@ -3213,11 +3442,49 @@ groups = ["dev"]
 metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40774789829cd" }
 
 [[targets.packages]]
+package = "bit"
+version = "4.6.0"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = []
+sources = ["https://p3m.dev/cran/2025-03-07/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/bit_4.6.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/bit_4.6.0-a639bb1d.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "48fe21c5d04c7b724d695eeb60074395c0c631a7fb234e2075de92471445de08" }
+
+[[targets.packages]]
+package = "blob"
+version = "1.3.0"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = [
+    "rlang",
+    "vctrs",
+]
+sources = ["https://p3m.dev/cran/2026-01-15/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/blob_1.3.0.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/blob_1.3.0-54a0849f.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "d4d2aeb8d17683bbfc256a7541e282af9663a752988a21a6ba72a4ab268c7331" }
+
+[[targets.packages]]
+package = "bit64"
+version = "4.8.6"
+binary = true
+platform = "x86_64-unknown-linux-gnu"
+dependencies = ["bit"]
+sources = ["https://p3m.dev/cran/2026-09-02/bin/linux/manylinux_2_28-x86_64/4.6/src/contrib/bit64_4.8.6.tar.gz"]
+target = "bin/linux/manylinux_2_28-x86_64/4.6/bit64_4.8.6-8edb959f.tar.gz"
+groups = ["main"]
+metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7da933d554b45" }
+
+[[targets.packages]]
 package = "tidymst"
 version = "0.0.0.9000"
 binary = false
 platform = "source"
 dependencies = [
+    "DBI",
+    "RSQLite",
     "cli",
     "dplyr",
     "readxl",
@@ -3230,12 +3497,20 @@ sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "2585262513d2ac50405dc51545f66b45fa9fff88242c0380c4da69f2ff2ab411", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
+metadata = { RemoteSha = "29dab9081ee5e3dff465fa4e3f54a99f14ea9a86aa34f1203912cabc65578ec8", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
 platform = "x86_64-w64-mingw32"
 bioc-version = "3.23"
+
+[[targets.direct_dependencies]]
+name = "DBI"
+constraint = "*"
+
+[[targets.direct_dependencies]]
+name = "RSQLite"
+constraint = "*"
 
 [[targets.direct_dependencies]]
 name = "cli"
@@ -3280,6 +3555,10 @@ constraint = "*"
 [[targets.direct_dependencies]]
 name = "testthat"
 constraint = ">= 3.0.0"
+
+[[targets.direct_dependencies]]
+name = "withr"
+constraint = "*"
 
 [[targets.packages]]
 package = "praise"
@@ -3534,7 +3813,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2024-05-17/bin/windows/contrib/4.6/cachem_1.1.0.zip"]
 target = "bin/windows/4.6/cachem_1.1.0-c7485274.zip"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "550839fc2ae5d865db475ba2c1714144f07fa0c052c72135b0e4a70287492e21" }
 
 [[targets.packages]]
@@ -3625,7 +3907,10 @@ platform = "x86_64-w64-mingw32"
 dependencies = []
 sources = ["https://p3m.dev/cran/2024-05-16/bin/windows/contrib/4.6/fastmap_1.2.0.zip"]
 target = "bin/windows/4.6/fastmap_1.2.0-50e8363a.zip"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "b1da04a2915d1d057f3c2525e295ef15016a64e6667eac83a14641bbd83b9246" }
 
 [[targets.packages]]
@@ -3692,7 +3977,10 @@ dependencies = [
 ]
 sources = ["https://p3m.dev/cran/2021-11-29/bin/windows/contrib/4.6/memoise_2.0.1.zip"]
 target = "bin/windows/4.6/memoise_2.0.1-d2e8eb41.zip"
-groups = ["dev"]
+groups = [
+    "dev",
+    "main",
+]
 metadata = { RemoteHash = "f85034ee98c8ca07fb3cd826142c1cd1e1e5747075a94c75a45783bbc4fe2deb" }
 
 [[targets.packages]]
@@ -3705,6 +3993,36 @@ sources = ["https://p3m.dev/cran/2026-09-18/bin/windows/contrib/4.6/tinytex_0.61
 target = "bin/windows/4.6/tinytex_0.61-4ba96a03.zip"
 groups = ["dev"]
 metadata = { RemoteHash = "78300dc6163911c7de3efbe225c3bf455287c67886ed0e5a04fd347c6eaf2680" }
+
+[[targets.packages]]
+package = "RSQLite"
+version = "3.53.3"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "bit64",
+    "rlang",
+    "DBI",
+    "cpp11",
+    "memoise",
+    "blob",
+    "pkgconfig",
+]
+sources = ["https://p3m.dev/cran/2026-07-01/bin/windows/contrib/4.6/RSQLite_3.53.3.zip"]
+target = "bin/windows/4.6/RSQLite_3.53.3-421c200f.zip"
+groups = ["main"]
+metadata = { RemoteHash = "82946aac5e2869da5fdaf57d0e4afeee3d4deac21d9eaeffb5f743273a93736c", RemoteLinkingToHashes = "cpp11@0.5.5=72486beb0605c1229bf3d422cd536224af8dc09bd389a3116f62f4c7705c62f4" }
+
+[[targets.packages]]
+package = "DBI"
+version = "1.3.0"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2026-02-26/bin/windows/contrib/4.6/DBI_1.3.0.zip"]
+target = "bin/windows/4.6/DBI_1.3.0-5360a0a2.zip"
+groups = ["main"]
+metadata = { RemoteHash = "13def8e90cbe41205a0dfcf585a6a7ea79ce10d45969789e82613c7ce3d5fb18" }
 
 [[targets.packages]]
 package = "htmltools"
@@ -4286,11 +4604,49 @@ groups = ["dev"]
 metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40774789829cd" }
 
 [[targets.packages]]
+package = "bit"
+version = "4.6.0"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = []
+sources = ["https://p3m.dev/cran/2025-03-07/bin/windows/contrib/4.6/bit_4.6.0.zip"]
+target = "bin/windows/4.6/bit_4.6.0-a639bb1d.zip"
+groups = ["main"]
+metadata = { RemoteHash = "48fe21c5d04c7b724d695eeb60074395c0c631a7fb234e2075de92471445de08" }
+
+[[targets.packages]]
+package = "blob"
+version = "1.3.0"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = [
+    "rlang",
+    "vctrs",
+]
+sources = ["https://p3m.dev/cran/2026-01-15/bin/windows/contrib/4.6/blob_1.3.0.zip"]
+target = "bin/windows/4.6/blob_1.3.0-54a0849f.zip"
+groups = ["main"]
+metadata = { RemoteHash = "d4d2aeb8d17683bbfc256a7541e282af9663a752988a21a6ba72a4ab268c7331" }
+
+[[targets.packages]]
+package = "bit64"
+version = "4.8.6"
+binary = true
+platform = "x86_64-w64-mingw32"
+dependencies = ["bit"]
+sources = ["https://p3m.dev/cran/2026-09-02/bin/windows/contrib/4.6/bit64_4.8.6.zip"]
+target = "bin/windows/4.6/bit64_4.8.6-8edb959f.zip"
+groups = ["main"]
+metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7da933d554b45" }
+
+[[targets.packages]]
 package = "tidymst"
 version = "0.0.0.9000"
 binary = false
 platform = "source"
 dependencies = [
+    "DBI",
+    "RSQLite",
     "cli",
     "dplyr",
     "readxl",
@@ -4303,4 +4659,4 @@ sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "2585262513d2ac50405dc51545f66b45fa9fff88242c0380c4da69f2ff2ab411", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
+metadata = { RemoteSha = "29dab9081ee5e3dff465fa4e3f54a99f14ea9a86aa34f1203912cabc65578ec8", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }

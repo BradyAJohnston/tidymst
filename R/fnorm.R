@@ -15,7 +15,8 @@
 #'   laser was on; look up the one used in MO.Affinity Analysis with
 #'   [read_mst_metadata()].
 #' @returns A tibble with one row per capillary, with the columns of `data`
-#'   other than `time` and `fluorescence`, plus `response_type` (always
+#'   other than `time`, `fluorescence` and `fluorescence_raw`, plus
+#'   `response_type` (always
 #'   `"fnorm"`) and `response`, the Fnorm in per mille. This is the same form as
 #'   [read_mst_dose_response()], ready for [mst_fit()].
 #' @export
@@ -36,7 +37,7 @@ mst_fnorm <- function(data, hot, cold = c(-1, 0)) {
   check_window_has_data(cold, data$time)
 
   data <- dplyr::ungroup(data)
-  by <- setdiff(names(data), c("time", "fluorescence"))
+  by <- setdiff(names(data), c("time", "fluorescence", "fluorescence_raw"))
   out <- dplyr::summarise(
     data,
     response_type = "fnorm",

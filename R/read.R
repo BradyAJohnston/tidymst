@@ -8,6 +8,36 @@
 #' * Compare Results (Chart) and Dose-Response (Grouped and Flat):
 #'   [read_mst_dose_response()].
 #' * Compare Results (Grid): [read_mst_fit()].
+#' * MO.Control (`.moc`) and MO.Affinity Analysis (`.nta`) project files:
+#'   [read_mst_traces()].
+#'
+#' @section Project files:
+#' MO.Control (`.moc`) and MO.Affinity Analysis (`.nta`) save projects as
+#' SQLite databases, which hold everything the Excel exports are made from.
+#' [read_mst_traces()], [read_mst_capillary_scan()] and [read_mst_metadata()]
+#' read both kinds of project; [read_mst_dose_response()] and [read_mst_fit()]
+#' read MO.Affinity Analysis projects, which include the analysis. They return
+#' the same columns as for the Excel exports, with these differences:
+#'
+#' * An `analysis_set` column names the analysis set, as a project can hold
+#'   several. A trace in more than one analysis set appears once for each.
+#'   MO.Control projects have no analysis, so `analysis_set`, `merge_set` and
+#'   `included` are missing, and `run` is named as MO.Affinity Analysis would
+#'   name it.
+#' * Traces also have `fluorescence_raw`, the fluorescence in raw counts.
+#'   `fluorescence` is normalised to the mean before the laser switches on,
+#'   which is within about 0.2% of MO.Affinity Analysis's normalisation.
+#' * Measurement times are in UTC (the Excel exports use local time), and
+#'   `temperature` is the measured temperature in degrees Celsius.
+#' * `mst_power` is a percentage, such as `"40%"`, rather than a label such as
+#'   `"Medium"`, and `excitation_type` is not available.
+#' * The fits from [read_mst_fit()] are those saved in the project, which may
+#'   differ from an export made at another time. They include each parameter's
+#'   standard error as reported by MO.Affinity Analysis (`*_std_error`), and
+#'   `fixed` lists any parameters that were fixed.
+#'
+#' Fit curves ([read_mst_fit_curve()]) are not read from projects; calculate
+#' them with [mst_fit()] and [mst_curve()].
 #'
 #' @inheritParams mst_export_type
 #' @returns A tibble.
@@ -17,11 +47,16 @@
 #' @export
 #' @examples
 #' read_mst(tidymst_example("dppr10-cy5_dose-response-flat.xlsx"))
+#'
+#' # A project file from MO.Affinity Analysis
+#' read_mst(tidymst_example("dppr10-cy5.nta"))
 read_mst <- function(path) {
   type <- mst_export_type(path)
   switch(
     type,
-    traces = read_mst_traces(path),
+    traces = ,
+    affinity_project = ,
+    control_project = read_mst_traces(path),
     capillary_scan = read_mst_capillary_scan(path),
     compare_grid = read_mst_fit(path),
     read_mst_dose_response(path)
@@ -41,12 +76,20 @@ read_mst <- function(path) {
 #'   * `time`: time in seconds relative to the laser switching on.
 #'   * `fluorescence`: fluorescence, normalised by MO.Affinity Analysis.
 #'
-#'   Concentrations are molar.
+#'   Concentrations are molar. Project files give some extra columns; see the
+#'   Project files section of [read_mst()].
 #' @export
 #' @examples
 #' read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
+#' read_mst_traces(tidymst_example("dppr10-cy5.nta"))
 read_mst_traces <- function(path) {
-  check_export_type(path, "traces")
+  type <- check_export_type(
+    path,
+    c("traces", "affinity_project", "control_project")
+  )
+  if (type != "traces") {
+    return(read_db_traces(path))
+  }
   read_capillaries(path, c("time", "fluorescence"))
 }
 
@@ -62,11 +105,21 @@ read_mst_traces <- function(path) {
 #'   * `included`: `FALSE` if the capillary was marked as an outlier.
 #'   * `position`: position along the tray, in capillary index units.
 #'   * `fluorescence`: raw fluorescence counts.
+#'
+#'   Project files give some extra columns; see the Project files section of
+#'   [read_mst()].
 #' @export
 #' @examples
 #' read_mst_capillary_scan(tidymst_example("dppr10c2_capillary-scan.xlsx"))
+#' read_mst_capillary_scan(tidymst_example("dppr10-cy5.nta"))
 read_mst_capillary_scan <- function(path) {
-  check_export_type(path, "capillary_scan")
+  type <- check_export_type(
+    path,
+    c("capillary_scan", "affinity_project", "control_project")
+  )
+  if (type != "capillary_scan") {
+    return(read_db_capillary_scans(path))
+  }
   read_capillaries(path, c("position", "fluorescence"))
 }
 
@@ -104,6 +157,10 @@ read_capillaries <- function(path, value_names) {
 #'   not record which capillaries were marked as outliers, so all are
 #'   included; join to [read_mst_traces()] by `run` and `capillary` to find
 #'   them.
+#' * MO.Affinity Analysis project files (`.nta`) give the Fnorm of every
+#'   capillary, calculated with [mst_fnorm()] using the cold and hot regions
+#'   of its analysis set, and whether it was included. See the Project files
+#'   section of [read_mst()].
 #'
 #' Note that dates of measurement in Dose-Response (Flat) exports appear to be
 #' in UTC, while other exports use the local time of the instrument computer.
@@ -131,12 +188,21 @@ read_capillaries <- function(path, value_names) {
 #' read_mst_dose_response(
 #'   tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 #' )
+#'
+#' read_mst_dose_response(tidymst_example("dppr10-cy5.nta"))
 read_mst_dose_response <- function(path) {
   type <- check_export_type(
     path,
-    c("compare_chart", "dose_response_grouped", "dose_response_flat")
+    c(
+      "compare_chart",
+      "dose_response_grouped",
+      "dose_response_flat",
+      "affinity_project"
+    )
   )
-  out <- if (type == "dose_response_flat") {
+  out <- if (type == "affinity_project") {
+    read_db_dose_response(path)
+  } else if (type == "dose_response_flat") {
     read_flat(path)
   } else {
     read_merge_sets(path)
@@ -260,7 +326,10 @@ read_flat <- function(path) {
 #'   * `std_dev`: the standard deviation of the residuals.
 #'
 #'   Grid exports also include fit statistics such as `std_error`,
-#'   `reduced_chi_sq` and `signal_to_noise`.
+#'   `reduced_chi_sq` and `signal_to_noise`. MO.Affinity Analysis project
+#'   files (`.nta`) give one row per merge set per model fitted, with
+#'   standard errors instead of confidences; see the Project files section of
+#'   [read_mst()].
 #' @export
 #' @examples
 #' read_mst_fit(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
@@ -268,8 +337,16 @@ read_flat <- function(path) {
 read_mst_fit <- function(path) {
   type <- check_export_type(
     path,
-    c("compare_chart", "compare_grid", "dose_response_grouped")
+    c(
+      "compare_chart",
+      "compare_grid",
+      "dose_response_grouped",
+      "affinity_project"
+    )
   )
+  if (type == "affinity_project") {
+    return(read_db_fit(path))
+  }
   if (type == "compare_grid") {
     return(read_grid(path))
   }
@@ -399,12 +476,21 @@ read_mst_fit_curve <- function(path) {
 #'   has a single set of analysis settings, `analysis_type`,
 #'   `evaluation_strategy` and the cold and hot regions in seconds
 #'   (`cold_start`, `cold_end`, `hot_start`, `hot_end`).
+#'
+#'   For project files, it gives the `software` that wrote the file, the
+#'   `project` name, when it was created and updated, and the instrument's
+#'   `device_type` and `optics_type`. MO.Affinity Analysis projects have one
+#'   row for each analysis set, with its settings.
 #' @export
 #' @examples
 #' read_mst_metadata(tidymst_example("dppr10-cy5_traces.xlsx"))
+#' read_mst_metadata(tidymst_example("dppr10-cy5.nta"))
 read_mst_metadata <- function(path) {
   check_path(path)
   type <- mst_export_type(path)
+  if (type %in% c("affinity_project", "control_project")) {
+    return(read_db_metadata(path, type))
+  }
   sheet <- if (type == "dose_response_flat") "MetaData" else 1
   m <- read_sheet(path, sheet)
 

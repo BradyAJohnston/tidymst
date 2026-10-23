@@ -7,7 +7,8 @@
 read_mst_metadata(path)
 }
 \arguments{
-\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis.}
+\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis, or
+a \code{.moc} or \code{.nta} project file.}
 }
 \value{
 A tibble with one row. Columns include \code{software}, \code{project},
@@ -15,6 +16,11 @@ A tibble with one row. Columns include \code{software}, \code{project},
 has a single set of analysis settings, \code{analysis_type},
 \code{evaluation_strategy} and the cold and hot regions in seconds
 (\code{cold_start}, \code{cold_end}, \code{hot_start}, \code{hot_end}).
+
+For project files, it gives the \code{software} that wrote the file, the
+\code{project} name, when it was created and updated, and the instrument's
+\code{device_type} and \code{optics_type}. MO.Affinity Analysis projects have one
+row for each analysis set, with its settings.
 }
 \description{
 Reads the header that MO.Affinity Analysis writes at the top of every
@@ -23,4 +29,5 @@ exports) the analysis settings.
 }
 \examples{
 read_mst_metadata(tidymst_example("dppr10-cy5_traces.xlsx"))
+read_mst_metadata(tidymst_example("dppr10-cy5.nta"))
 }

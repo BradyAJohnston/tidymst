@@ -14,6 +14,6 @@
       read_mst_traces(tidymst_example("dsnppr10_compare-grid.xlsx"))
     Condition
       Error in `read_mst_traces()`:
-      ! `path` must be a "traces" export, not "compare_grid".
+      ! `path` must be a "traces", "affinity_project", or "control_project" export, not "compare_grid".
       i Use `read_mst()` to pick a reader automatically.
 

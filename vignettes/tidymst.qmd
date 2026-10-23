@@ -67,6 +67,18 @@ The MST Traces export is the most useful: it has the raw data and records
 which capillaries you marked as outliers, so you can redo the whole analysis
 in R.
 
+You can also skip exporting altogether and read the project files that
+NanoTemper's software saves, with the same functions:
+
+| To get                                   | `.moc` (MO.Control) | `.nta` (MO.Affinity Analysis) | Read with                    |
+|------------------------------------------|:-------------------:|:-----------------------------:|------------------------------|
+| The MST trace of every capillary         | ✓                   | ✓                             | `read_mst_traces()`          |
+| The capillary scans                      | ✓                   | ✓                             | `read_mst_capillary_scan()`  |
+| The Fnorm of every capillary             |                     | ✓                             | `read_mst_dose_response()`   |
+| MO.Affinity's fits                       |                     | ✓                             | `read_mst_fit()`             |
+
+See [Reading project files](#reading-project-files) below for more.
+
 ## Reading data
 
 tidymst comes with some example files, from an experiment measuring the
@@ -363,3 +375,61 @@ read_mst_fit(compare) |>
 
 These data frames have the same columns as the ones above, so you can plot
 them in the same way.
+
+## Reading project files
+
+NanoTemper's software saves whole projects in files you can read directly,
+without exporting anything:
+
+* MO.Control saves the measurements in a `.moc` file.
+* MO.Affinity Analysis saves a `.nta` file with the same measurements plus
+  your analysis: analysis sets, merge sets, which capillaries are outliers,
+  and the fits.
+
+Pass either kind of file to the same functions as before:
+
+```{r}
+project <- tidymst_example("dppr10-cy5.nta")
+
+project_traces <- read_mst_traces(project)
+project_traces
+```
+
+The columns are the same as from the MST Traces export, with a few extras.
+`analysis_set` names the analysis set each trace belongs to, and
+`fluorescence_raw` is the fluorescence in raw counts, which the Excel exports
+don't include. Measurement times are in UTC.
+
+`read_mst_dose_response()` calculates the Fnorm of every capillary using the
+hot and cold regions from your analysis set, so it matches what MO.Affinity
+Analysis shows:
+
+```{r}
+read_mst_dose_response(project) |>
+  select(target, ligand_concentration, response, included)
+```
+
+`read_mst_fit()` reads the fits saved in the project, including the standard
+error of each parameter and any parameters that were fixed:
+
+```{r}
+read_mst_fit(project) |>
+  select(target, model, fixed, kd, kd_std_error)
+```
+
+These are the fits as the project was last saved, which may differ from an
+export made at another time. In this example, the saved Kd fit to atpH-fl has
+the bound state fixed at 850, whereas the Compare Results export of the same
+experiment fitted it freely.
+
+A `.moc` file has no analysis, so it gives traces and capillary scans but not
+Fnorm or fits. Its sample details are as entered when measuring: if you
+corrected a concentration later in MO.Affinity Analysis, read the `.nta` file
+to get the corrected value.
+
+To see which project or analysis set a file is, use `read_mst_metadata()`:
+
+```{r}
+read_mst_metadata(project) |>
+  select(software, project, analysis_set, hot_start, hot_end)
+```

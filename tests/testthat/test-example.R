@@ -1,5 +1,5 @@
 test_that("tidymst_example() lists and finds files", {
-  expect_length(tidymst_example(), 8)
+  expect_length(tidymst_example(), 9)
   expect_match(
     tidymst_example("dppr10-cy5_traces.xlsx"),
     "extdata/dppr10-cy5_traces.xlsx$"

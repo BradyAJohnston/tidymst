@@ -9,13 +9,18 @@ Description: Read the Excel exports written by NanoTemper's MO.Affinity
     fluorescence (Fnorm) from traces, fit Kd and Hill binding models, and
     convert responses to delta Fnorm or fraction bound.
 License: MIT + file LICENSE
+URL: https://github.com/BradyAJohnston/tidymst,
+    https://bradyajohnston.github.io/tidymst/
+BugReports: https://github.com/BradyAJohnston/tidymst/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
     cli,
+    DBI,
     dplyr (>= 1.1.0),
     readxl,
     rlang (>= 1.1.0),
+    RSQLite,
     stats,
     tibble,
     tidyselect,
@@ -25,13 +30,12 @@ Suggests:
     ggplot2,
     knitr,
     quarto,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
+VignetteBuilder: 
+    quarto
 Config/roxygen2/version: 8.1.1
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/BradyAJohnston/tidymst,
-    https://bradyajohnston.github.io/tidymst/
-BugReports: https://github.com/BradyAJohnston/tidymst/issues
-VignetteBuilder: quarto

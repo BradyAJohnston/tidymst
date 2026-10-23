@@ -23,12 +23,13 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/BradyAJohnston/tidymst/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BradyAJohnston/tidymst/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-tidymst reads the Excel files exported by NanoTemper's MO.Affinity Analysis
-software from microscale thermophoresis (MST) experiments into tidy data
-frames, and analyses them:
+tidymst reads microscale thermophoresis (MST) data from NanoTemper's
+software into tidy data frames, and analyses them:
 
 * Read MST traces, capillary scans, dose-response data and fits with
-  `read_mst()` and friends. Every export is read into the same standard
+  `read_mst()` and friends, from either the Excel files exported by
+  MO.Affinity Analysis or the project files saved by MO.Control (`.moc`) and
+  MO.Affinity Analysis (`.nta`). Everything is read into the same standard
   columns, with concentrations in molar.
 * Recalculate Fnorm from the traces with any hot and cold windows, using
   `mst_fnorm()`.
@@ -73,6 +74,27 @@ mst_coefs(fits)
 #| fig-height: 3.5
 mst_plot_dose_response(fnorm, fits)
 ```
+
+## Reading project files
+
+You don't need to export anything: the same functions read the project files
+that NanoTemper's software saves. An MO.Affinity Analysis project (`.nta`)
+holds the raw measurements and your analysis, including which capillaries are
+outliers and the fits:
+
+```{r}
+#| label: project
+project <- tidymst_example("dppr10-cy5.nta")
+
+read_mst_dose_response(project) |>
+  select(target, ligand_concentration, response, included)
+
+read_mst_fit(project) |>
+  select(target, model, fixed, kd, kd_std_error)
+```
+
+An MO.Control project (`.moc`) holds the measurements only, so it gives
+traces and capillary scans.
 
 See `vignette("tidymst")` for a full walk-through, including how to make
 your own plots.

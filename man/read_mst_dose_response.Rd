@@ -7,7 +7,8 @@
 read_mst_dose_response(path)
 }
 \arguments{
-\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis.}
+\item{path}{Path to an \code{.xlsx} file exported from MO.Affinity Analysis, or
+a \code{.moc} or \code{.nta} project file.}
 }
 \value{
 A tibble with one row per concentration per series. It always
@@ -39,6 +40,10 @@ Capillaries marked as outliers are excluded.
 not record which capillaries were marked as outliers, so all are
 included; join to \code{\link[=read_mst_traces]{read_mst_traces()}} by \code{run} and \code{capillary} to find
 them.
+\item MO.Affinity Analysis project files (\code{.nta}) give the Fnorm of every
+capillary, calculated with \code{\link[=mst_fnorm]{mst_fnorm()}} using the cold and hot regions
+of its analysis set, and whether it was included. See the Project files
+section of \code{\link[=read_mst]{read_mst()}}.
 }
 
 Note that dates of measurement in Dose-Response (Flat) exports appear to be
@@ -51,4 +56,6 @@ read_mst_dose_response(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
 read_mst_dose_response(
   tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 )
+
+read_mst_dose_response(tidymst_example("dppr10-cy5.nta"))
 }

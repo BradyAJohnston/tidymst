@@ -5,16 +5,17 @@ test_that("detects every example export type", {
     character(1)
   )
   expect_equal(
-    unname(types),
+    types,
     c(
-      "compare_chart",
-      "compare_chart",
-      "dose_response_flat",
-      "dose_response_grouped",
-      "traces",
-      "capillary_scan",
-      "compare_chart",
-      "compare_grid"
+      "dppr10-cy5.nta" = "affinity_project",
+      "dppr10-cy5_compare-fnorm.xlsx" = "compare_chart",
+      "dppr10-cy5_compare-fraction-bound.xlsx" = "compare_chart",
+      "dppr10-cy5_dose-response-flat.xlsx" = "dose_response_flat",
+      "dppr10-cy5_dose-response-grouped.xlsx" = "dose_response_grouped",
+      "dppr10-cy5_traces.xlsx" = "traces",
+      "dppr10c2_capillary-scan.xlsx" = "capillary_scan",
+      "dsnppr10_compare-delta-fnorm.xlsx" = "compare_chart",
+      "dsnppr10_compare-grid.xlsx" = "compare_grid"
     )
   )
 })
