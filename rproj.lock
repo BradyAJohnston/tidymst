@@ -1015,11 +1015,11 @@ dependencies = [
     "tidyselect",
     "vctrs",
 ]
-sources = ["file:///Users/brady/git/nanotempr/"]
+sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "7d8a5528f8fcf6d5dc332c4b470e8ea1e78d6e18e6284e81fe074c8dd5dc85ac", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
+metadata = { RemoteSha = "c6aed009e0cb2854639f96409bdc3ff5a3b30196827608216391ed4b4d149997", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -2032,11 +2032,11 @@ dependencies = [
     "tidyselect",
     "vctrs",
 ]
-sources = ["file:///Users/brady/git/nanotempr/"]
+sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "7d8a5528f8fcf6d5dc332c4b470e8ea1e78d6e18e6284e81fe074c8dd5dc85ac", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
+metadata = { RemoteSha = "c6aed009e0cb2854639f96409bdc3ff5a3b30196827608216391ed4b4d149997", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -3045,11 +3045,11 @@ dependencies = [
     "tidyselect",
     "vctrs",
 ]
-sources = ["file:///Users/brady/git/nanotempr/"]
+sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "7d8a5528f8fcf6d5dc332c4b470e8ea1e78d6e18e6284e81fe074c8dd5dc85ac", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
+metadata = { RemoteSha = "c6aed009e0cb2854639f96409bdc3ff5a3b30196827608216391ed4b4d149997", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -4058,8 +4058,8 @@ dependencies = [
     "tidyselect",
     "vctrs",
 ]
-sources = ["file:///Users/brady/git/nanotempr/"]
+sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "7d8a5528f8fcf6d5dc332c4b470e8ea1e78d6e18e6284e81fe074c8dd5dc85ac", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
+metadata = { RemoteSha = "c6aed009e0cb2854639f96409bdc3ff5a3b30196827608216391ed4b4d149997", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
