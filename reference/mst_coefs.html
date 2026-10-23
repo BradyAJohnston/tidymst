@@ -65,7 +65,9 @@ Hill model. A fixed <code>target_concentration</code> is not included.</p></li>
 <li><p><code>estimate</code> and <code>std_error</code>: the estimate and its standard error.
 Concentrations are molar.</p></li>
 <li><p><code>conf_low</code> and <code>conf_high</code>: the confidence interval, from the
-t-distribution.</p></li>
+t-distribution. Concentrations are fitted on a log scale, so their
+intervals are calculated on that scale and are asymmetric, and their
+standard errors are approximate.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -80,8 +82,8 @@ t-distribution.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> atpH-fl kd    unbound               1.09<span style="color: #949494;">e</span>+3 2.44           1.09<span style="color: #949494;">e</span>+3   1.10<span style="color: #949494;">e</span>+3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> atpH-fl kd    bound                 8.51<span style="color: #949494;">e</span>+2 3.98           8.43<span style="color: #949494;">e</span>+2   8.59<span style="color: #949494;">e</span>+2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> atpH-fl kd    kd                    1.47<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span> 0.000<span style="text-decoration: underline;">000</span>005<span style="text-decoration: underline;">57</span>  3.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-9</span>   2.60<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> atpH-fl kd    target_concentration  1.13<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span> 0.000<span style="text-decoration: underline;">000</span>013<span style="text-decoration: underline;">8</span>   8.54<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span>   1.41<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> atpH-fl kd    kd                    1.47<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span> 0.000<span style="text-decoration: underline;">000</span>005<span style="text-decoration: underline;">57</span>  6.88<span style="color: #949494;">e</span><span style="color: #BB0000;">-9</span>   3.16<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> atpH-fl kd    target_concentration  1.13<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span> 0.000<span style="text-decoration: underline;">000</span>013<span style="text-decoration: underline;">8</span>   8.86<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span>   1.45<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

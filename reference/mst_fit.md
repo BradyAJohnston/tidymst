@@ -96,7 +96,7 @@ fits
 #> # A tibble: 1 × 5
 #>   target  model     n sigma fit       
 #>   <chr>   <chr> <int> <dbl> <list>    
-#> 1 atpH-fl kd       48  11.0 <mst_bnd_>
+#> 1 atpH-fl kd       48 0.107 <mst_bnd_>
 
 mst_coefs(fits)
 #> # A tibble: 4 × 7
@@ -104,13 +104,13 @@ mst_coefs(fits)
 #>   <chr>   <chr> <chr>                   <dbl>         <dbl>    <dbl>     <dbl>
 #> 1 atpH-fl kd    unbound               1.09e+3 2.44           1.09e+3   1.10e+3
 #> 2 atpH-fl kd    bound                 8.51e+2 3.98           8.43e+2   8.59e+2
-#> 3 atpH-fl kd    kd                    1.47e-8 0.00000000557  3.51e-9   2.60e-8
-#> 4 atpH-fl kd    target_concentration  1.13e-7 0.0000000138   8.54e-8   1.41e-7
+#> 3 atpH-fl kd    kd                    1.47e-8 0.00000000557  6.88e-9   3.16e-8
+#> 4 atpH-fl kd    target_concentration  1.13e-7 0.0000000138   8.86e-8   1.45e-7
 
 # Fix the target concentration at its nominal value
 mst_fit(doses, target_concentration = 50e-9, .by = target)
 #> # A tibble: 1 × 5
 #>   target  model     n sigma fit       
 #>   <chr>   <chr> <int> <dbl> <list>    
-#> 1 atpH-fl kd       48  12.3 <mst_bnd_>
+#> 1 atpH-fl kd       48 0.120 <mst_bnd_>
 ```

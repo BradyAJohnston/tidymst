@@ -213,10 +213,10 @@ fits <- mst_fit(fnorm, model = "kd", .by = target)
 #> Warning: Failed to fit 1 of 2 groups.
 fits
 #> # A tibble: 2 × 5
-#>   target   model     n sigma fit       
-#>   <chr>    <chr> <int> <dbl> <list>    
-#> 1 atpH-fl  kd       47  7.85 <mst_bnd_>
-#> 2 NEAT1-fl kd       NA NA    <NULL>
+#>   target   model     n   sigma fit       
+#>   <chr>    <chr> <int>   <dbl> <list>    
+#> 1 atpH-fl  kd       47  0.0755 <mst_bnd_>
+#> 2 NEAT1-fl kd       NA NA      <NULL>
 ```
 
 There’s one row per RNA. `n` is the number of capillaries fitted and
@@ -249,8 +249,8 @@ coefs
 #>   <chr>   <chr> <chr>                   <dbl>         <dbl>    <dbl>     <dbl>
 #> 1 atpH-fl kd    unbound               1.09e+3 1.74           1.09e+3   1.10e+3
 #> 2 atpH-fl kd    bound                 8.52e+2 2.80           8.46e+2   8.58e+2
-#> 3 atpH-fl kd    kd                    1.26e-8 0.00000000367  5.19e-9   2.00e-8
-#> 4 atpH-fl kd    target_concentration  1.20e-7 0.00000000951  1.00e-7   1.39e-7
+#> 3 atpH-fl kd    kd                    1.26e-8 0.00000000367  6.99e-9   2.27e-8
+#> 4 atpH-fl kd    target_concentration  1.20e-7 0.00000000951  1.02e-7   1.40e-7
 ```
 
 Each row is one parameter (`term`) of one fit, with its `estimate`,
@@ -505,7 +505,7 @@ read_mst_fit(compare) |>
 #>   target   model           kd kd_confidence
 #>   <chr>    <chr>        <dbl>         <dbl>
 #> 1 atpH-fl  kd    0.0000000126       2.49e-9
-#> 2 NEAT1-fl kd    0.000000434       NA    
+#> 2 NEAT1-fl kd    0.000000434       NA
 ```
 
 These data frames have the same columns as the ones above, so you can

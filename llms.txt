@@ -57,8 +57,8 @@ mst_coefs(fits)
 #>   <chr>   <chr> <chr>                   <dbl>         <dbl>    <dbl>     <dbl>
 #> 1 atpH-fl kd    unbound               1.09e+3 1.74           1.09e+3   1.10e+3
 #> 2 atpH-fl kd    bound                 8.52e+2 2.80           8.46e+2   8.58e+2
-#> 3 atpH-fl kd    kd                    1.26e-8 0.00000000367  5.19e-9   2.00e-8
-#> 4 atpH-fl kd    target_concentration  1.20e-7 0.00000000951  1.00e-7   1.39e-7
+#> 3 atpH-fl kd    kd                    1.26e-8 0.00000000367  6.99e-9   2.27e-8
+#> 4 atpH-fl kd    target_concentration  1.20e-7 0.00000000951  1.02e-7   1.40e-7
 ```
 
 ``` r

@@ -34,7 +34,9 @@ of `fits` and:
   Concentrations are molar.
 
 - `conf_low` and `conf_high`: the confidence interval, from the
-  t-distribution.
+  t-distribution. Concentrations are fitted on a log scale, so their
+  intervals are calculated on that scale and are asymmetric, and their
+  standard errors are approximate.
 
 ## Examples
 
@@ -49,6 +51,6 @@ mst_coefs(fits)
 #>   <chr>   <chr> <chr>                   <dbl>         <dbl>    <dbl>     <dbl>
 #> 1 atpH-fl kd    unbound               1.09e+3 2.44           1.09e+3   1.10e+3
 #> 2 atpH-fl kd    bound                 8.51e+2 3.98           8.43e+2   8.59e+2
-#> 3 atpH-fl kd    kd                    1.47e-8 0.00000000557  3.51e-9   2.60e-8
-#> 4 atpH-fl kd    target_concentration  1.13e-7 0.0000000138   8.54e-8   1.41e-7
+#> 3 atpH-fl kd    kd                    1.47e-8 0.00000000557  6.88e-9   3.16e-8
+#> 4 atpH-fl kd    target_concentration  1.13e-7 0.0000000138   8.86e-8   1.45e-7
 ```
