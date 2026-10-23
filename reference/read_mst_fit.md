@@ -14,7 +14,8 @@ read_mst_fit(path)
 
 - path:
 
-  Path to an `.xlsx` file exported from MO.Affinity Analysis.
+  Path to an `.xlsx` file exported from MO.Affinity Analysis, or a
+  `.moc` or `.nta` project file.
 
 ## Value
 
@@ -40,7 +41,10 @@ A tibble with one row per merge set, with columns:
 - `std_dev`: the standard deviation of the residuals.
 
 Grid exports also include fit statistics such as `std_error`,
-`reduced_chi_sq` and `signal_to_noise`.
+`reduced_chi_sq` and `signal_to_noise`. MO.Affinity Analysis project
+files (`.nta`) give one row per merge set per model fitted, with
+standard errors instead of confidences; see the Project files section of
+[`read_mst()`](https://bradyajohnston.github.io/tidymst/reference/read_mst.md).
 
 ## Examples
 

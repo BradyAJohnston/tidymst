@@ -10,13 +10,13 @@ Source:
 [`DESCRIPTION`](https://github.com/BradyAJohnston/tidymst/blob/main/DESCRIPTION)
 
 Johnston B (2026). *tidymst: Read and Analyse NanoTemper Microscale
-Thermophoresis Exports*. R package version 0.0.0.9000,
+Thermophoresis Exports*. R package version 0.0.1,
 <https://github.com/BradyAJohnston/tidymst>.
 
     @Manual{,
       title = {tidymst: Read and Analyse NanoTemper Microscale Thermophoresis Exports},
       author = {Brady Johnston},
       year = {2026},
-      note = {R package version 0.0.0.9000},
+      note = {R package version 0.0.1},
       url = {https://github.com/BradyAJohnston/tidymst},
     }

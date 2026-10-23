@@ -29,14 +29,15 @@ exported in several formats.
 
 ``` r
 tidymst_example()
-#> [1] "dppr10-cy5_compare-fnorm.xlsx"         
-#> [2] "dppr10-cy5_compare-fraction-bound.xlsx"
-#> [3] "dppr10-cy5_dose-response-flat.xlsx"    
-#> [4] "dppr10-cy5_dose-response-grouped.xlsx" 
-#> [5] "dppr10-cy5_traces.xlsx"                
-#> [6] "dppr10c2_capillary-scan.xlsx"          
-#> [7] "dsnppr10_compare-delta-fnorm.xlsx"     
-#> [8] "dsnppr10_compare-grid.xlsx"            
+#> [1] "dppr10-cy5.nta"                        
+#> [2] "dppr10-cy5_compare-fnorm.xlsx"         
+#> [3] "dppr10-cy5_compare-fraction-bound.xlsx"
+#> [4] "dppr10-cy5_dose-response-flat.xlsx"    
+#> [5] "dppr10-cy5_dose-response-grouped.xlsx" 
+#> [6] "dppr10-cy5_traces.xlsx"                
+#> [7] "dppr10c2_capillary-scan.xlsx"          
+#> [8] "dsnppr10_compare-delta-fnorm.xlsx"     
+#> [9] "dsnppr10_compare-grid.xlsx"            
 tidymst_example("dppr10-cy5_traces.xlsx")
 #> [1] "/home/runner/work/_temp/Library/tidymst/extdata/dppr10-cy5_traces.xlsx"
 ```

@@ -30,8 +30,9 @@ mst_fnorm(data, hot, cold = c(-1, 0))
 ## Value
 
 A tibble with one row per capillary, with the columns of `data` other
-than `time` and `fluorescence`, plus `response_type` (always `"fnorm"`)
-and `response`, the Fnorm in per mille. This is the same form as
+than `time`, `fluorescence` and `fluorescence_raw`, plus `response_type`
+(always `"fnorm"`) and `response`, the Fnorm in per mille. This is the
+same form as
 [`read_mst_dose_response()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_dose_response.md),
 ready for
 [`mst_fit()`](https://bradyajohnston.github.io/tidymst/reference/mst_fit.md).

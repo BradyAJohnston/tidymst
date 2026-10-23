@@ -11,7 +11,7 @@ pipetting errors."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidymst</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,8 @@ pipetting errors.</p>
 
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>Path to an <code>.xlsx</code> file exported from MO.Affinity Analysis.</p></dd>
+<dd><p>Path to an <code>.xlsx</code> file exported from MO.Affinity Analysis, or
+a <code>.moc</code> or <code>.nta</code> project file.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -63,7 +64,9 @@ pipetting errors.</p>
 the sample and measurement settings of each capillary, it has columns:</p><ul><li><p><code>included</code>: <code>FALSE</code> if the capillary was marked as an outlier.</p></li>
 <li><p><code>position</code>: position along the tray, in capillary index units.</p></li>
 <li><p><code>fluorescence</code>: raw fluorescence counts.</p></li>
-</ul></div>
+</ul><p>Project files give some extra columns; see the Project files section of
+<code><a href="read_mst.html">read_mst()</a></code>.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -86,6 +89,25 @@ the sample and measurement settings of each capillary, it has columns:</p><ul><l
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   target_concentration &lt;dbl&gt;, mst_power &lt;chr&gt;, excitation_power &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   excitation_type &lt;chr&gt;, thermostat_setpoint &lt;chr&gt;, included &lt;lgl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   position &lt;dbl&gt;, fluorescence &lt;dbl&gt;</span></span>
+<span class="r-in"><span><span class="fu">read_mst_capillary_scan</span><span class="op">(</span><span class="fu"><a href="tidymst_example.html">tidymst_example</a></span><span class="op">(</span><span class="st">"dppr10-cy5.nta"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 23,689 × 16</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    analysis_set   merge_set run   capillary measured_at         excitation_power</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Analysis-Set … dPPR10-C… Run …         1 2018-11-21 <span style="color: #949494;">01:41:54</span>               30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 23,679 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 10 more variables: thermostat_setpoint &lt;chr&gt;, temperature &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   capillary_type &lt;chr&gt;, ligand &lt;chr&gt;, ligand_concentration &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   target &lt;chr&gt;, target_concentration &lt;dbl&gt;, included &lt;lgl&gt;, position &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fluorescence &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

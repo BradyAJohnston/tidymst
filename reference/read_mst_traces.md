@@ -15,7 +15,8 @@ read_mst_traces(path)
 
 - path:
 
-  Path to an `.xlsx` file exported from MO.Affinity Analysis.
+  Path to an `.xlsx` file exported from MO.Affinity Analysis, or a
+  `.moc` or `.nta` project file.
 
 ## Value
 
@@ -28,7 +29,9 @@ and measurement settings of each capillary, it has columns:
 
 - `fluorescence`: fluorescence, normalised by MO.Affinity Analysis.
 
-Concentrations are molar.
+Concentrations are molar. Project files give some extra columns; see the
+Project files section of
+[`read_mst()`](https://bradyajohnston.github.io/tidymst/reference/read_mst.md).
 
 ## Examples
 
@@ -52,4 +55,23 @@ read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 #> #   target_concentration <dbl>, mst_power <chr>, excitation_power <dbl>,
 #> #   excitation_type <chr>, thermostat_setpoint <chr>, included <lgl>,
 #> #   time <dbl>, fluorescence <dbl>
+read_mst_traces(tidymst_example("dppr10-cy5.nta"))
+#> # A tibble: 29,415 × 18
+#>    analysis_set    merge_set       run   capillary measured_at         mst_power
+#>    <chr>           <chr>           <chr>     <int> <dttm>              <chr>    
+#>  1 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  2 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  3 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  4 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  5 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  6 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  7 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  8 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  9 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#> 10 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#> # ℹ 29,405 more rows
+#> # ℹ 12 more variables: excitation_power <dbl>, thermostat_setpoint <chr>,
+#> #   temperature <dbl>, capillary_type <chr>, ligand <chr>,
+#> #   ligand_concentration <dbl>, target <chr>, target_concentration <dbl>,
+#> #   included <lgl>, time <dbl>, fluorescence <dbl>, fluorescence_raw <dbl>
 ```

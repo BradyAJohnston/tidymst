@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidymst</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,6 +125,50 @@
 </table>
 <p>If you’re not sure what a file is, <code><a href="../reference/read_mst.html">read_mst()</a></code> works it out for you and picks the right reader.</p>
 <p>The MST Traces export is the most useful: it has the raw data and records which capillaries you marked as outliers, so you can redo the whole analysis in R.</p>
+<p>You can also skip exporting altogether and read the project files that NanoTemper’s software saves, with the same functions:</p>
+<table class="table caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 16%">
+<col style="width: 25%">
+<col style="width: 24%">
+</colgroup>
+<thead><tr class="header">
+<th>To get</th>
+<th style="text-align: center;">
+<code>.moc</code> (MO.Control)</th>
+<th style="text-align: center;">
+<code>.nta</code> (MO.Affinity Analysis)</th>
+<th>Read with</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>The MST trace of every capillary</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td><code><a href="../reference/read_mst_traces.html">read_mst_traces()</a></code></td>
+</tr>
+<tr class="even">
+<td>The capillary scans</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td><code><a href="../reference/read_mst_capillary_scan.html">read_mst_capillary_scan()</a></code></td>
+</tr>
+<tr class="odd">
+<td>The Fnorm of every capillary</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">✓</td>
+<td><code><a href="../reference/read_mst_dose_response.html">read_mst_dose_response()</a></code></td>
+</tr>
+<tr class="even">
+<td>MO.Affinity’s fits</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">✓</td>
+<td><code><a href="../reference/read_mst_fit.html">read_mst_fit()</a></code></td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="#reading-project-files">Reading project files</a> below for more.</p>
 </section><section class="level2"><h2 id="reading-data">Reading data<a class="anchor" aria-label="anchor" href="#reading-data"></a>
 </h2>
 <p>tidymst comes with some example files, from an experiment measuring the binding of a protein (dPPR10-Cy5) to two RNAs (atpH-fl and NEAT1-fl). <code><a href="../reference/tidymst_example.html">tidymst_example()</a></code> gives the path to one of them:</p>
@@ -493,6 +537,84 @@
 <span><span class="co">#&gt; 2 NEAT1-fl kd    0.000000434       NA</span></span></code></pre></div>
 </div>
 <p>These data frames have the same columns as the ones above, so you can plot them in the same way.</p>
+</section><section class="level2"><h2 id="reading-project-files">Reading project files<a class="anchor" aria-label="anchor" href="#reading-project-files"></a>
+</h2>
+<p>NanoTemper’s software saves whole projects in files you can read directly, without exporting anything:</p>
+<ul>
+<li>MO.Control saves the measurements in a <code>.moc</code> file.</li>
+<li>MO.Affinity Analysis saves a <code>.nta</code> file with the same measurements plus your analysis: analysis sets, merge sets, which capillaries are outliers, and the fits.</li>
+</ul>
+<p>Pass either kind of file to the same functions as before:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">project</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidymst_example.html">tidymst_example</a></span><span class="op">(</span><span class="st">"dppr10-cy5.nta"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">project_traces</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_mst_traces.html">read_mst_traces</a></span><span class="op">(</span><span class="va">project</span><span class="op">)</span></span>
+<span><span class="va">project_traces</span></span>
+<span><span class="co">#&gt; # A tibble: 29,415 × 18</span></span>
+<span><span class="co">#&gt;    analysis_set    merge_set       run   capillary measured_at         mst_power</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;     &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt;  1 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt;  2 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt;  3 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt;  4 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt;  5 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt;  6 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt;  7 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt;  8 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt;  9 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt; 10 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      </span></span>
+<span><span class="co">#&gt; # ℹ 29,405 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 12 more variables: excitation_power &lt;dbl&gt;, thermostat_setpoint &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   temperature &lt;dbl&gt;, capillary_type &lt;chr&gt;, ligand &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   ligand_concentration &lt;dbl&gt;, target &lt;chr&gt;, target_concentration &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   included &lt;lgl&gt;, time &lt;dbl&gt;, fluorescence &lt;dbl&gt;, fluorescence_raw &lt;dbl&gt;</span></span></code></pre></div>
+</div>
+<p>The columns are the same as from the MST Traces export, with a few extras. <code>analysis_set</code> names the analysis set each trace belongs to, and <code>fluorescence_raw</code> is the fluorescence in raw counts, which the Excel exports don’t include. Measurement times are in UTC.</p>
+<p><code><a href="../reference/read_mst_dose_response.html">read_mst_dose_response()</a></code> calculates the Fnorm of every capillary using the hot and cold regions from your analysis set, so it matches what MO.Affinity Analysis shows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/read_mst_dose_response.html">read_mst_dose_response</a></span><span class="op">(</span><span class="va">project</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">target</span>, <span class="va">ligand_concentration</span>, <span class="va">response</span>, <span class="va">included</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 80 × 4</span></span>
+<span><span class="co">#&gt;    target  ligand_concentration response included</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                  &lt;dbl&gt;    &lt;dbl&gt; &lt;lgl&gt;   </span></span>
+<span><span class="co">#&gt;  1 atpH-fl        0.0000035         839. TRUE    </span></span>
+<span><span class="co">#&gt;  2 atpH-fl        0.00000175        849. TRUE    </span></span>
+<span><span class="co">#&gt;  3 atpH-fl        0.000000875       855. TRUE    </span></span>
+<span><span class="co">#&gt;  4 atpH-fl        0.000000438       858. TRUE    </span></span>
+<span><span class="co">#&gt;  5 atpH-fl        0.000000219       861. TRUE    </span></span>
+<span><span class="co">#&gt;  6 atpH-fl        0.000000109       903. TRUE    </span></span>
+<span><span class="co">#&gt;  7 atpH-fl        0.0000000547      997. TRUE    </span></span>
+<span><span class="co">#&gt;  8 atpH-fl        0.0000000273     1034. TRUE    </span></span>
+<span><span class="co">#&gt;  9 atpH-fl        0.0000000137     1065. TRUE    </span></span>
+<span><span class="co">#&gt; 10 atpH-fl        0.00000000684    1076. TRUE    </span></span>
+<span><span class="co">#&gt; # ℹ 70 more rows</span></span></code></pre></div>
+</div>
+<p><code><a href="../reference/read_mst_fit.html">read_mst_fit()</a></code> reads the fits saved in the project, including the standard error of each parameter and any parameters that were fixed:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/read_mst_fit.html">read_mst_fit</a></span><span class="op">(</span><span class="va">project</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">target</span>, <span class="va">model</span>, <span class="va">fixed</span>, <span class="va">kd</span>, <span class="va">kd_std_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span><span class="co">#&gt;   target   model fixed            kd kd_std_error</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 atpH-fl  hill  &lt;NA&gt;  NA                NA      </span></span>
+<span><span class="co">#&gt; 2 atpH-fl  kd    bound  0.0000000144      2.04e-9</span></span>
+<span><span class="co">#&gt; 3 NEAT1-fl kd    &lt;NA&gt;   0.000000434      NA</span></span></code></pre></div>
+</div>
+<p>These are the fits as the project was last saved, which may differ from an export made at another time. In this example, the saved Kd fit to atpH-fl has the bound state fixed at 850, whereas the Compare Results export of the same experiment fitted it freely.</p>
+<p>A <code>.moc</code> file has no analysis, so it gives traces and capillary scans but not Fnorm or fits. Its sample details are as entered when measuring: if you corrected a concentration later in MO.Affinity Analysis, read the <code>.nta</code> file to get the corrected value.</p>
+<p>To see which project or analysis set a file is, use <code><a href="../reference/read_mst_metadata.html">read_mst_metadata()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/read_mst_metadata.html">read_mst_metadata</a></span><span class="op">(</span><span class="va">project</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">software</span>, <span class="va">project</span>, <span class="va">analysis_set</span>, <span class="va">hot_start</span>, <span class="va">hot_end</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 5</span></span>
+<span><span class="co">#&gt;   software             project                analysis_set    hot_start hot_end</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                &lt;chr&gt;                  &lt;chr&gt;               &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 MO.Affinity Analysis dPPR10-C5_binding_test Analysis-Set #1        19      20</span></span></code></pre></div>
+</div>
 </section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);

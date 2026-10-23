@@ -14,7 +14,8 @@ read_mst_fit_curve(path)
 
 - path:
 
-  Path to an `.xlsx` file exported from MO.Affinity Analysis.
+  Path to an `.xlsx` file exported from MO.Affinity Analysis, or a
+  `.moc` or `.nta` project file.
 
 ## Value
 

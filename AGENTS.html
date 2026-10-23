@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tidymst</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,8 @@
 <p>tidymst reads Excel exports from NanoTemper’s MO.Affinity Analysis (v2.x) into tidy tibbles, and fits MST binding models.</p>
 <ul><li>Dependencies are managed with rig (<code>rproj.toml</code>, <code>rproj.lock</code>). DESCRIPTION is the source of truth: after changing dependencies with <code>usethis::use_package()</code>, run <code>rig proj import --dependencies</code>, then <code>rig proj lock</code> and <code>rig proj sync</code>. Dev tools (devtools, usethis, roxygen2) live in rig’s <code>tools</code> library.</li>
 <li>All export formats are parsed by the block parser in <code>R/utils-read.R</code>. Sheets are read as text and typed in <code>coerce_columns()</code>; add new metadata keys to <code>key_names</code> so every reader names them consistently.</li>
+<li>Project files (<code>.moc</code>, <code>.nta</code>) are SQLite databases, read in <code>R/read-db.R</code>. Traces are pairs of little-endian float32 (time, raw fluorescence); capillary scans are 4 float32 per point (position in mm, unused, unused, fluorescence), converted to capillary index with 4.5 mm per capillary. Concentrations in <code>Annotation</code> are stored in mM.</li>
+<li>Project files contain personal data (operator name and hashed password in <code>tOperator</code>, instrument serial and MAC in <code>tDevice</code>/<code>tOptics</code>). Never return these, and sanitise any project file before adding it to <code>inst/extdata</code>, then VACUUM.</li>
 <li>
 <code>inst/extdata</code> holds real exports. Tests check results against values MO.Affinity Analysis computed itself (e.g. Fnorm in the Flat export, Kd in the Compare export), so keep those cross-checks passing.</li>
 <li>Use British English (<code>Language: en-GB</code>) in documentation, overriding the US English default below.</li>

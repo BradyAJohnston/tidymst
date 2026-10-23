@@ -9,7 +9,7 @@ export."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidymst</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,8 @@ export.</p>
 
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>Path to an <code>.xlsx</code> file exported from MO.Affinity Analysis.</p></dd>
+<dd><p>Path to an <code>.xlsx</code> file exported from MO.Affinity Analysis, or
+a <code>.moc</code> or <code>.nta</code> project file.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -78,6 +79,10 @@ Capillaries marked as outliers are excluded.</p></li>
 not record which capillaries were marked as outliers, so all are
 included; join to <code><a href="read_mst_traces.html">read_mst_traces()</a></code> by <code>run</code> and <code>capillary</code> to find
 them.</p></li>
+<li><p>MO.Affinity Analysis project files (<code>.nta</code>) give the Fnorm of every
+capillary, calculated with <code><a href="mst_fnorm.html">mst_fnorm()</a></code> using the cold and hot regions
+of its analysis set, and whether it was included. See the Project files
+section of <code><a href="read_mst.html">read_mst()</a></code>.</p></li>
 </ul><p>Note that dates of measurement in Dose-Response (Flat) exports appear to be
 in UTC, while other exports use the local time of the instrument computer.
 Both are returned as recorded, labelled as UTC.</p>
@@ -129,6 +134,27 @@ Both are returned as recorded, labelled as UTC.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cold_start &lt;dbl&gt;, cold_end &lt;dbl&gt;, hot_start &lt;dbl&gt;, hot_end &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mst_power &lt;chr&gt;, excitation_power &lt;dbl&gt;, temperature &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   exported_on &lt;dttm&gt;, bleaching_rate &lt;dbl&gt;, initial_fluorescence &lt;dbl&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">read_mst_dose_response</span><span class="op">(</span><span class="fu"><a href="tidymst_example.html">tidymst_example</a></span><span class="op">(</span><span class="st">"dppr10-cy5.nta"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 80 × 21</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    merge_set       run              capillary target target_concentration ligand</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         1 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         2 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         3 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         4 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         5 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         6 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         7 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         8 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> dPPR10-Cy5 Tray Run atpH-fl_50_…         9 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> dPPR10-Cy5 Tray Run atpH-fl_50_…        10 atpH-…           0.000<span style="text-decoration: underline;">000</span>05 dPPR1…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 70 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 15 more variables: ligand_concentration &lt;dbl&gt;, response_type &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   response &lt;dbl&gt;, analysis_set &lt;chr&gt;, measured_at &lt;dttm&gt;, mst_power &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   excitation_power &lt;dbl&gt;, thermostat_setpoint &lt;chr&gt;, temperature &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   capillary_type &lt;chr&gt;, included &lt;lgl&gt;, cold_start &lt;dbl&gt;, cold_end &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   hot_start &lt;dbl&gt;, hot_end &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

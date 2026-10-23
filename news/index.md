@@ -1,7 +1,18 @@
 # Changelog
 
-## tidymst (development version)
+## tidymst 0.0.1
 
+- Read MO.Control (`.moc`) and MO.Affinity Analysis (`.nta`) project
+  files, which are SQLite databases, with
+  [`read_mst()`](https://bradyajohnston.github.io/tidymst/reference/read_mst.md),
+  [`read_mst_traces()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_traces.md),
+  [`read_mst_capillary_scan()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_capillary_scan.md),
+  [`read_mst_dose_response()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_dose_response.md),
+  [`read_mst_fit()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_fit.md)
+  and
+  [`read_mst_metadata()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_metadata.md).
+  Projects give raw fluorescence counts and the fits as last saved, with
+  standard errors.
 - Read exports from MO.Affinity Analysis with
   [`read_mst()`](https://bradyajohnston.github.io/tidymst/reference/read_mst.md),
   [`read_mst_traces()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_traces.md),

@@ -49,6 +49,18 @@ The MST Traces export is the most useful: it has the raw data and
 records which capillaries you marked as outliers, so you can redo the
 whole analysis in R.
 
+You can also skip exporting altogether and read the project files that
+NanoTemper’s software saves, with the same functions:
+
+| To get | `.moc` (MO.Control) | `.nta` (MO.Affinity Analysis) | Read with |
+|----|:--:|:--:|----|
+| The MST trace of every capillary | ✓ | ✓ | [`read_mst_traces()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_traces.md) |
+| The capillary scans | ✓ | ✓ | [`read_mst_capillary_scan()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_capillary_scan.md) |
+| The Fnorm of every capillary |  | ✓ | [`read_mst_dose_response()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_dose_response.md) |
+| MO.Affinity’s fits |  | ✓ | [`read_mst_fit()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_fit.md) |
+
+See [Reading project files](#reading-project-files) below for more.
+
 ## Reading data
 
 tidymst comes with some example files, from an experiment measuring the
@@ -510,3 +522,109 @@ read_mst_fit(compare) |>
 
 These data frames have the same columns as the ones above, so you can
 plot them in the same way.
+
+## Reading project files
+
+NanoTemper’s software saves whole projects in files you can read
+directly, without exporting anything:
+
+- MO.Control saves the measurements in a `.moc` file.
+- MO.Affinity Analysis saves a `.nta` file with the same measurements
+  plus your analysis: analysis sets, merge sets, which capillaries are
+  outliers, and the fits.
+
+Pass either kind of file to the same functions as before:
+
+``` r
+
+project <- tidymst_example("dppr10-cy5.nta")
+
+project_traces <- read_mst_traces(project)
+project_traces
+#> # A tibble: 29,415 × 18
+#>    analysis_set    merge_set       run   capillary measured_at         mst_power
+#>    <chr>           <chr>           <chr>     <int> <dttm>              <chr>    
+#>  1 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  2 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  3 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  4 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  5 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  6 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  7 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  8 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#>  9 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#> 10 Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 01:42:32 40%      
+#> # ℹ 29,405 more rows
+#> # ℹ 12 more variables: excitation_power <dbl>, thermostat_setpoint <chr>,
+#> #   temperature <dbl>, capillary_type <chr>, ligand <chr>,
+#> #   ligand_concentration <dbl>, target <chr>, target_concentration <dbl>,
+#> #   included <lgl>, time <dbl>, fluorescence <dbl>, fluorescence_raw <dbl>
+```
+
+The columns are the same as from the MST Traces export, with a few
+extras. `analysis_set` names the analysis set each trace belongs to, and
+`fluorescence_raw` is the fluorescence in raw counts, which the Excel
+exports don’t include. Measurement times are in UTC.
+
+[`read_mst_dose_response()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_dose_response.md)
+calculates the Fnorm of every capillary using the hot and cold regions
+from your analysis set, so it matches what MO.Affinity Analysis shows:
+
+``` r
+
+read_mst_dose_response(project) |>
+  select(target, ligand_concentration, response, included)
+#> # A tibble: 80 × 4
+#>    target  ligand_concentration response included
+#>    <chr>                  <dbl>    <dbl> <lgl>   
+#>  1 atpH-fl        0.0000035         839. TRUE    
+#>  2 atpH-fl        0.00000175        849. TRUE    
+#>  3 atpH-fl        0.000000875       855. TRUE    
+#>  4 atpH-fl        0.000000438       858. TRUE    
+#>  5 atpH-fl        0.000000219       861. TRUE    
+#>  6 atpH-fl        0.000000109       903. TRUE    
+#>  7 atpH-fl        0.0000000547      997. TRUE    
+#>  8 atpH-fl        0.0000000273     1034. TRUE    
+#>  9 atpH-fl        0.0000000137     1065. TRUE    
+#> 10 atpH-fl        0.00000000684    1076. TRUE    
+#> # ℹ 70 more rows
+```
+
+[`read_mst_fit()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_fit.md)
+reads the fits saved in the project, including the standard error of
+each parameter and any parameters that were fixed:
+
+``` r
+
+read_mst_fit(project) |>
+  select(target, model, fixed, kd, kd_std_error)
+#> # A tibble: 3 × 5
+#>   target   model fixed            kd kd_std_error
+#>   <chr>    <chr> <chr>         <dbl>        <dbl>
+#> 1 atpH-fl  hill  <NA>  NA                NA      
+#> 2 atpH-fl  kd    bound  0.0000000144      2.04e-9
+#> 3 NEAT1-fl kd    <NA>   0.000000434      NA
+```
+
+These are the fits as the project was last saved, which may differ from
+an export made at another time. In this example, the saved Kd fit to
+atpH-fl has the bound state fixed at 850, whereas the Compare Results
+export of the same experiment fitted it freely.
+
+A `.moc` file has no analysis, so it gives traces and capillary scans
+but not Fnorm or fits. Its sample details are as entered when measuring:
+if you corrected a concentration later in MO.Affinity Analysis, read the
+`.nta` file to get the corrected value.
+
+To see which project or analysis set a file is, use
+[`read_mst_metadata()`](https://bradyajohnston.github.io/tidymst/reference/read_mst_metadata.md):
+
+``` r
+
+read_mst_metadata(project) |>
+  select(software, project, analysis_set, hot_start, hot_end)
+#> # A tibble: 1 × 5
+#>   software             project                analysis_set    hot_start hot_end
+#>   <chr>                <chr>                  <chr>               <dbl>   <dbl>
+#> 1 MO.Affinity Analysis dPPR10-C5_binding_test Analysis-Set #1        19      20
+```

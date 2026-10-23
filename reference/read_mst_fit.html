@@ -11,7 +11,7 @@ exports."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidymst</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,8 @@ exports.</p>
 
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>Path to an <code>.xlsx</code> file exported from MO.Affinity Analysis.</p></dd>
+<dd><p>Path to an <code>.xlsx</code> file exported from MO.Affinity Analysis, or
+a <code>.moc</code> or <code>.nta</code> project file.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -72,7 +73,10 @@ if it was a free parameter.</p></li>
 concentration, its confidence, and the Hill coefficient.</p></li>
 <li><p><code>std_dev</code>: the standard deviation of the residuals.</p></li>
 </ul><p>Grid exports also include fit statistics such as <code>std_error</code>,
-<code>reduced_chi_sq</code> and <code>signal_to_noise</code>.</p>
+<code>reduced_chi_sq</code> and <code>signal_to_noise</code>. MO.Affinity Analysis project
+files (<code>.nta</code>) give one row per merge set per model fitted, with
+standard errors instead of confidences; see the Project files section of
+<code><a href="read_mst.html">read_mst()</a></code>.</p>
     </div>
 
     <div class="section level2">

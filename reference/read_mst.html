@@ -9,7 +9,7 @@ its main table:"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tidymst</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,8 @@ its main table:</p>
 
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>Path to an <code>.xlsx</code> file exported from MO.Affinity Analysis.</p></dd>
+<dd><p>Path to an <code>.xlsx</code> file exported from MO.Affinity Analysis, or
+a <code>.moc</code> or <code>.nta</code> project file.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -66,7 +67,37 @@ its main table:</p>
 <li><p>Compare Results (Chart) and Dose-Response (Grouped and Flat):
 <code><a href="read_mst_dose_response.html">read_mst_dose_response()</a></code>.</p></li>
 <li><p>Compare Results (Grid): <code><a href="read_mst_fit.html">read_mst_fit()</a></code>.</p></li>
+<li><p>MO.Control (<code>.moc</code>) and MO.Affinity Analysis (<code>.nta</code>) project files:
+<code><a href="read_mst_traces.html">read_mst_traces()</a></code>.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="project-files">Project files<a class="anchor" aria-label="anchor" href="#project-files"></a></h2>
+
+
+<p>MO.Control (<code>.moc</code>) and MO.Affinity Analysis (<code>.nta</code>) save projects as
+SQLite databases, which hold everything the Excel exports are made from.
+<code><a href="read_mst_traces.html">read_mst_traces()</a></code>, <code><a href="read_mst_capillary_scan.html">read_mst_capillary_scan()</a></code> and <code><a href="read_mst_metadata.html">read_mst_metadata()</a></code>
+read both kinds of project; <code><a href="read_mst_dose_response.html">read_mst_dose_response()</a></code> and <code><a href="read_mst_fit.html">read_mst_fit()</a></code>
+read MO.Affinity Analysis projects, which include the analysis. They return
+the same columns as for the Excel exports, with these differences:</p><ul><li><p>An <code>analysis_set</code> column names the analysis set, as a project can hold
+several. A trace in more than one analysis set appears once for each.
+MO.Control projects have no analysis, so <code>analysis_set</code>, <code>merge_set</code> and
+<code>included</code> are missing, and <code>run</code> is named as MO.Affinity Analysis would
+name it.</p></li>
+<li><p>Traces also have <code>fluorescence_raw</code>, the fluorescence in raw counts.
+<code>fluorescence</code> is normalised to the mean before the laser switches on,
+which is within about 0.2% of MO.Affinity Analysis's normalisation.</p></li>
+<li><p>Measurement times are in UTC (the Excel exports use local time), and
+<code>temperature</code> is the measured temperature in degrees Celsius.</p></li>
+<li><p><code>mst_power</code> is a percentage, such as <code>"40%"</code>, rather than a label such as
+<code>"Medium"</code>, and <code>excitation_type</code> is not available.</p></li>
+<li><p>The fits from <code><a href="read_mst_fit.html">read_mst_fit()</a></code> are those saved in the project, which may
+differ from an export made at another time. They include each parameter's
+standard error as reported by MO.Affinity Analysis (<code>*_std_error</code>), and
+<code>fixed</code> lists any parameters that were fixed.</p></li>
+</ul><p>Fit curves (<code><a href="read_mst_fit_curve.html">read_mst_fit_curve()</a></code>) are not read from projects; calculate
+them with <code><a href="mst_fit.html">mst_fit()</a></code> and <code><a href="mst_curve.html">mst_curve()</a></code>.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="read_mst_metadata.html">read_mst_metadata()</a></code> for the file-level header, and
@@ -97,6 +128,27 @@ Compare Results and Dose-Response (Grouped) exports.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cold_start &lt;dbl&gt;, cold_end &lt;dbl&gt;, hot_start &lt;dbl&gt;, hot_end &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mst_power &lt;chr&gt;, excitation_power &lt;dbl&gt;, temperature &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   exported_on &lt;dttm&gt;, bleaching_rate &lt;dbl&gt;, initial_fluorescence &lt;dbl&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># A project file from MO.Affinity Analysis</span></span></span>
+<span class="r-in"><span><span class="fu">read_mst</span><span class="op">(</span><span class="fu"><a href="tidymst_example.html">tidymst_example</a></span><span class="op">(</span><span class="st">"dppr10-cy5.nta"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 29,415 × 18</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    analysis_set    merge_set       run   capillary measured_at         mst_power</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Analysis-Set #1 dPPR10-Cy5 Tray Run …         1 2018-11-21 <span style="color: #949494;">01:42:32</span> 40%      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 29,405 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 12 more variables: excitation_power &lt;dbl&gt;, thermostat_setpoint &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   temperature &lt;dbl&gt;, capillary_type &lt;chr&gt;, ligand &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ligand_concentration &lt;dbl&gt;, target &lt;chr&gt;, target_concentration &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   included &lt;lgl&gt;, time &lt;dbl&gt;, fluorescence &lt;dbl&gt;, fluorescence_raw &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
