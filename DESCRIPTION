@@ -1,6 +1,6 @@
 Package: tidymst
 Title: Read and Analyse NanoTemper Microscale Thermophoresis Exports
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person("Brady", "Johnston", , "brady.johnston@me.com", role = c("aut", "cre"))
 Description: Read the Excel exports written by NanoTemper's MO.Affinity
