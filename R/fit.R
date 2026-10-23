@@ -40,7 +40,7 @@
 #' @export
 #' @examples
 #' doses <- read_mst_dose_response(
-#'   nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+#'   tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 #' )
 #' fits <- mst_fit(doses, .by = target)
 #' fits
@@ -236,7 +236,7 @@ predict_fit <- function(fit, x) {
 #' @export
 #' @examples
 #' doses <- read_mst_dose_response(
-#'   nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+#'   tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 #' )
 #' fits <- mst_fit(doses, .by = target)
 #' mst_coefs(fits)
@@ -274,7 +274,7 @@ mst_coefs <- function(fits, conf_level = 0.95) {
 #' @export
 #' @examples
 #' doses <- read_mst_dose_response(
-#'   nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+#'   tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 #' )
 #' fits <- mst_fit(doses, .by = target)
 #' mst_curve(fits)
@@ -315,7 +315,7 @@ mst_curve <- function(fits, n = 100) {
 #' @export
 #' @examples
 #' doses <- read_mst_dose_response(
-#'   nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+#'   tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 #' )
 #' fits <- mst_fit(doses, .by = target)
 #' mst_normalise(doses, fits)

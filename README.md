@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# nanotempr
+# tidymst
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/BradyAJohnston/nanotempr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BradyAJohnston/nanotempr/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/BradyAJohnston/tidymst/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BradyAJohnston/tidymst/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-nanotempr reads the Excel files exported by NanoTemper’s MO.Affinity
+tidymst reads the Excel files exported by NanoTemper’s MO.Affinity
 Analysis software from microscale thermophoresis (MST) experiments into
 tidy data frames, and analyses them:
 
@@ -26,11 +26,11 @@ tidy data frames, and analyses them:
 
 ## Installation
 
-Install the development version of nanotempr from GitHub with:
+Install the development version of tidymst from GitHub with:
 
 ``` r
 # install.packages("pak")
-pak::pak("BradyAJohnston/nanotempr")
+pak::pak("BradyAJohnston/tidymst")
 ```
 
 ## Example
@@ -39,10 +39,10 @@ Read the MST traces exported from MO.Affinity Analysis, calculate Fnorm
 for the capillaries that weren’t marked as outliers, and fit a Kd:
 
 ``` r
-library(nanotempr)
+library(tidymst)
 library(dplyr)
 
-traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 
 fnorm <- traces |>
   filter(included, target == "atpH-fl") |>
@@ -65,5 +65,5 @@ mst_plot_dose_response(fnorm, fits)
 
 <img src="man/figures/README-plot-1.png" alt="" width="100%" />
 
-See `vignette("nanotempr")` for a full walk-through, including how to
-make your own plots.
+See `vignette("tidymst")` for a full walk-through, including how to make
+your own plots.

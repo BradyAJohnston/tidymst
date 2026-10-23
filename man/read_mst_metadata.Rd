@@ -22,5 +22,5 @@ export: where the data came from, when it was exported, and (for most
 exports) the analysis settings.
 }
 \examples{
-read_mst_metadata(nanotempr_example("dppr10-cy5_traces.xlsx"))
+read_mst_metadata(tidymst_example("dppr10-cy5_traces.xlsx"))
 }

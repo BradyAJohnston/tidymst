@@ -16,7 +16,7 @@
 #'   Compare Results and Dose-Response (Grouped) exports.
 #' @export
 #' @examples
-#' read_mst(nanotempr_example("dppr10-cy5_dose-response-flat.xlsx"))
+#' read_mst(tidymst_example("dppr10-cy5_dose-response-flat.xlsx"))
 read_mst <- function(path) {
   type <- mst_export_type(path)
   switch(
@@ -44,7 +44,7 @@ read_mst <- function(path) {
 #'   Concentrations are molar.
 #' @export
 #' @examples
-#' read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+#' read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 read_mst_traces <- function(path) {
   check_export_type(path, "traces")
   read_capillaries(path, c("time", "fluorescence"))
@@ -64,7 +64,7 @@ read_mst_traces <- function(path) {
 #'   * `fluorescence`: raw fluorescence counts.
 #' @export
 #' @examples
-#' read_mst_capillary_scan(nanotempr_example("dppr10c2_capillary-scan.xlsx"))
+#' read_mst_capillary_scan(tidymst_example("dppr10c2_capillary-scan.xlsx"))
 read_mst_capillary_scan <- function(path) {
   check_export_type(path, "capillary_scan")
   read_capillaries(path, c("position", "fluorescence"))
@@ -126,10 +126,10 @@ read_capillaries <- function(path, value_names) {
 #'   Concentrations are molar.
 #' @export
 #' @examples
-#' read_mst_dose_response(nanotempr_example("dppr10-cy5_compare-fnorm.xlsx"))
+#' read_mst_dose_response(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
 #'
 #' read_mst_dose_response(
-#'   nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+#'   tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 #' )
 read_mst_dose_response <- function(path) {
   type <- check_export_type(
@@ -263,8 +263,8 @@ read_flat <- function(path) {
 #'   `reduced_chi_sq` and `signal_to_noise`.
 #' @export
 #' @examples
-#' read_mst_fit(nanotempr_example("dppr10-cy5_compare-fnorm.xlsx"))
-#' read_mst_fit(nanotempr_example("dsnppr10_compare-delta-fnorm.xlsx"))
+#' read_mst_fit(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
+#' read_mst_fit(tidymst_example("dsnppr10_compare-delta-fnorm.xlsx"))
 read_mst_fit <- function(path) {
   type <- check_export_type(
     path,
@@ -358,7 +358,7 @@ read_grid <- function(path) {
 #'   Fnorm. Some exports leave the curves empty, giving a tibble with no rows.
 #' @export
 #' @examples
-#' read_mst_fit_curve(nanotempr_example("dsnppr10_compare-delta-fnorm.xlsx"))
+#' read_mst_fit_curve(tidymst_example("dsnppr10_compare-delta-fnorm.xlsx"))
 read_mst_fit_curve <- function(path) {
   check_export_type(path, c("compare_chart", "dose_response_grouped"))
   if (!"Fit-Values" %in% readxl::excel_sheets(path)) {
@@ -401,7 +401,7 @@ read_mst_fit_curve <- function(path) {
 #'   (`cold_start`, `cold_end`, `hot_start`, `hot_end`).
 #' @export
 #' @examples
-#' read_mst_metadata(nanotempr_example("dppr10-cy5_traces.xlsx"))
+#' read_mst_metadata(tidymst_example("dppr10-cy5_traces.xlsx"))
 read_mst_metadata <- function(path) {
   check_path(path)
   type <- mst_export_type(path)

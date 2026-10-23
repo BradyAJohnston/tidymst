@@ -22,5 +22,5 @@ Reads the curves MO.Affinity Analysis fitted to each merge set, from the
 exports.
 }
 \examples{
-read_mst_fit_curve(nanotempr_example("dsnppr10_compare-delta-fnorm.xlsx"))
+read_mst_fit_curve(tidymst_example("dsnppr10_compare-delta-fnorm.xlsx"))
 }

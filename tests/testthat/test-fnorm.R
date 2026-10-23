@@ -1,6 +1,6 @@
 test_that("mst_fnorm() matches MO.Affinity Analysis", {
-  traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
-  flat <- read_mst_dose_response(nanotempr_example(
+  traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
+  flat <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
   ))
 
@@ -14,7 +14,7 @@ test_that("mst_fnorm() matches MO.Affinity Analysis", {
 })
 
 test_that("mst_fnorm() validates windows", {
-  traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+  traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 
   expect_snapshot(error = TRUE, {
     mst_fnorm(traces)

@@ -1,18 +1,18 @@
 test_that("read_mst() dispatches on export type", {
   expect_equal(
-    read_mst(nanotempr_example("dsnppr10_compare-grid.xlsx")),
-    read_mst_fit(nanotempr_example("dsnppr10_compare-grid.xlsx"))
+    read_mst(tidymst_example("dsnppr10_compare-grid.xlsx")),
+    read_mst_fit(tidymst_example("dsnppr10_compare-grid.xlsx"))
   )
   expect_named(
-    read_mst(nanotempr_example("dppr10c2_capillary-scan.xlsx")),
-    names(read_mst_capillary_scan(nanotempr_example(
+    read_mst(tidymst_example("dppr10c2_capillary-scan.xlsx")),
+    names(read_mst_capillary_scan(tidymst_example(
       "dppr10c2_capillary-scan.xlsx"
     )))
   )
 })
 
 test_that("read_mst_traces() returns one trace per capillary", {
-  traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+  traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 
   expect_s3_class(traces, "tbl_df")
   expect_equal(nrow(dplyr::distinct(traces, run, capillary)), 80)
@@ -30,7 +30,7 @@ test_that("read_mst_traces() returns one trace per capillary", {
 })
 
 test_that("read_mst_capillary_scan() reads positions", {
-  scan <- read_mst_capillary_scan(nanotempr_example(
+  scan <- read_mst_capillary_scan(tidymst_example(
     "dppr10c2_capillary-scan.xlsx"
   ))
 
@@ -40,7 +40,7 @@ test_that("read_mst_capillary_scan() reads positions", {
 })
 
 test_that("read_mst_dose_response() reads merge-set exports", {
-  doses <- read_mst_dose_response(nanotempr_example(
+  doses <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_compare-fnorm.xlsx"
   ))
 
@@ -54,7 +54,7 @@ test_that("read_mst_dose_response() reads merge-set exports", {
 
 test_that("read_mst_dose_response() finds the response type", {
   type <- \(f) {
-    unique(read_mst_dose_response(nanotempr_example(f))$response_type)
+    unique(read_mst_dose_response(tidymst_example(f))$response_type)
   }
 
   expect_equal(type("dppr10-cy5_compare-fraction-bound.xlsx"), "fraction_bound")
@@ -64,7 +64,7 @@ test_that("read_mst_dose_response() finds the response type", {
 })
 
 test_that("read_mst_dose_response() reads flat exports", {
-  doses <- read_mst_dose_response(nanotempr_example(
+  doses <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
   ))
 
@@ -88,23 +88,23 @@ test_that("read_mst_dose_response() reads flat exports", {
 })
 
 test_that("read_mst_fit() reads Kd, Hill and grid fits", {
-  kd <- read_mst_fit(nanotempr_example("dppr10-cy5_compare-fnorm.xlsx"))
+  kd <- read_mst_fit(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
   expect_equal(kd$model, c("kd", "kd"))
   expect_equal(kd$kd[[1]], 1.25774389704214e-08)
   expect_equal(kd$kd_confidence, c(2.49237821641024e-09, NA))
 
-  hill <- read_mst_fit(nanotempr_example("dsnppr10_compare-delta-fnorm.xlsx"))
+  hill <- read_mst_fit(tidymst_example("dsnppr10_compare-delta-fnorm.xlsx"))
   expect_equal(hill$model, c("hill", "hill"))
   expect_equal(hill$hill, c(1.35197458620559, 1.8))
 
-  grid <- read_mst_fit(nanotempr_example("dsnppr10_compare-grid.xlsx"))
+  grid <- read_mst_fit(tidymst_example("dsnppr10_compare-grid.xlsx"))
   expect_equal(nrow(grid), 4)
   expect_equal(grid$n, rep(3L, 4))
   expect_equal(grid$kd[[3]], 2.24657246656874e-08)
 })
 
 test_that("read_mst_fit_curve() reads curves, dropping empty ones", {
-  path <- nanotempr_example("dsnppr10_compare-delta-fnorm.xlsx")
+  path <- tidymst_example("dsnppr10_compare-delta-fnorm.xlsx")
   curve <- read_mst_fit_curve(path)
   expect_equal(nrow(curve), 300)
   expect_equal(unique(curve$response_type), "delta_fnorm")
@@ -114,21 +114,21 @@ test_that("read_mst_fit_curve() reads curves, dropping empty ones", {
   unbound <- read_mst_fit(path)$unbound[[1]]
   expect_equal(first$response, first$fnorm - unbound, tolerance = 1e-6)
 
-  empty <- read_mst_fit_curve(nanotempr_example(
+  empty <- read_mst_fit_curve(tidymst_example(
     "dppr10-cy5_compare-fnorm.xlsx"
   ))
   expect_equal(nrow(empty), 0)
 })
 
 test_that("read_mst_metadata() reads the header", {
-  meta <- read_mst_metadata(nanotempr_example("dppr10-cy5_traces.xlsx"))
+  meta <- read_mst_metadata(tidymst_example("dppr10-cy5_traces.xlsx"))
 
   expect_equal(nrow(meta), 1)
   expect_equal(meta$software, "MO.Affinity Analysis v2.2.7")
   expect_equal(meta$exported_from, "MST Traces")
   expect_equal(c(meta$hot_start, meta$hot_end), c(19, 20))
 
-  flat <- read_mst_metadata(nanotempr_example(
+  flat <- read_mst_metadata(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
   ))
   expect_equal(flat$exported_from, "Dose-Response (Flat)")

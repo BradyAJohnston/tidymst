@@ -24,5 +24,5 @@ each measurement, which is used to check for sticking, aggregation and
 pipetting errors.
 }
 \examples{
-read_mst_capillary_scan(nanotempr_example("dppr10c2_capillary-scan.xlsx"))
+read_mst_capillary_scan(tidymst_example("dppr10c2_capillary-scan.xlsx"))
 }

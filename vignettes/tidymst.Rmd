@@ -1,8 +1,8 @@
 ---
-title: "Get started with nanotempr"
+title: "Get started with tidymst"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Get started with nanotempr}
+  %\VignetteIndexEntry{Get started with tidymst}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 has_ggplot <- rlang::is_installed("ggplot2")
 ```
 
-nanotempr reads the Excel files that NanoTemper's MO.Affinity Analysis
+tidymst reads the Excel files that NanoTemper's MO.Affinity Analysis
 software exports from microscale thermophoresis (MST) experiments, and turns
 them into ordinary R data frames. From there you can recalculate Fnorm, fit
 binding curves to get a Kd, and make your own plots.
@@ -27,25 +27,25 @@ little, for example to make a basic plot, but not much more.
 
 ## Setup
 
-Install nanotempr from GitHub (you only need to do this once):
+Install tidymst from GitHub (you only need to do this once):
 
 ```{r, eval = FALSE}
 install.packages("pak")
-pak::pak("BradyAJohnston/nanotempr")
+pak::pak("BradyAJohnston/tidymst")
 ```
 
 Then load it at the start of every script, along with dplyr (for working with
 data frames) and ggplot2 (for plotting):
 
 ```{r setup, message = FALSE}
-library(nanotempr)
+library(tidymst)
 library(dplyr)
 library(ggplot2)
 ```
 
 ## Exporting your data from MO.Affinity Analysis
 
-nanotempr reads the `.xlsx` files that MO.Affinity Analysis writes when you
+tidymst reads the `.xlsx` files that MO.Affinity Analysis writes when you
 export data. Which export you need depends on what you want to do:
 
 | To get                                   | Export from                          | Read with                    |
@@ -65,12 +65,12 @@ in R.
 
 ## Reading data
 
-nanotempr comes with some example files, from an experiment measuring the
+tidymst comes with some example files, from an experiment measuring the
 binding of a protein (dPPR10-Cy5) to two RNAs (atpH-fl and NEAT1-fl).
-`nanotempr_example()` gives the path to one of them:
+`tidymst_example()` gives the path to one of them:
 
 ```{r}
-path <- nanotempr_example("dppr10-cy5_traces.xlsx")
+path <- tidymst_example("dppr10-cy5_traces.xlsx")
 ```
 
 With your own data, `path` is just the location of your file, in quotes:
@@ -232,7 +232,7 @@ NEAT1-fl has no fit, so its `delta_fnorm` and `fraction_bound` are `NA`
 
 ## Making your own plots
 
-The plotting functions in nanotempr are a quick way to look at your data, but
+The plotting functions in tidymst are a quick way to look at your data, but
 for a figure you'll probably want to make your own. Because every function
 returns an ordinary data frame, you can plot them with ggplot2 like any other
 data.
@@ -340,7 +340,7 @@ its results directly instead of redoing them. A Compare Results (Chart) export
 contains the mean response at each concentration and the fit:
 
 ```{r}
-compare <- nanotempr_example("dppr10-cy5_compare-fnorm.xlsx")
+compare <- tidymst_example("dppr10-cy5_compare-fnorm.xlsx")
 
 read_mst_dose_response(compare)
 

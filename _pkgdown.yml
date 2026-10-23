@@ -1,4 +1,4 @@
-url: https://bradyajohnston.github.io/nanotempr/
+url: https://bradyajohnston.github.io/tidymst/
 template:
   bootstrap: 5
 
@@ -8,7 +8,7 @@ reference:
   - read_mst
   - starts_with("read_mst_")
   - mst_export_type
-  - nanotempr_example
+  - tidymst_example
 
 - title: Analyse
   contents:

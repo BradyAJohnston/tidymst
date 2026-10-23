@@ -26,5 +26,5 @@ before and while the IR laser heats it. Normalised fluorescence (Fnorm) can
 be recalculated from the traces with \code{\link[=mst_fnorm]{mst_fnorm()}}.
 }
 \examples{
-read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 }

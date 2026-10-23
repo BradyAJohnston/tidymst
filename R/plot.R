@@ -8,7 +8,7 @@
 #' @returns A ggplot.
 #' @export
 #' @examplesIf rlang::is_installed("ggplot2")
-#' traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+#' traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 #' mst_plot_traces(traces)
 mst_plot_traces <- function(data, colour = ligand_concentration) {
   check_installed("ggplot2")
@@ -49,7 +49,7 @@ mst_plot_traces <- function(data, colour = ligand_concentration) {
 #' @export
 #' @examplesIf rlang::is_installed("ggplot2")
 #' doses <- read_mst_dose_response(
-#'   nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+#'   tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 #' )
 #' fits <- mst_fit(doses, .by = target)
 #' mst_plot_dose_response(doses, fits, colour = target)

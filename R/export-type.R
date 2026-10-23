@@ -15,8 +15,8 @@
 #'   * `"dose_response_flat"`: Dose-Response (Flat).
 #' @export
 #' @examples
-#' mst_export_type(nanotempr_example("dppr10-cy5_traces.xlsx"))
-#' mst_export_type(nanotempr_example("dppr10-cy5_compare-fnorm.xlsx"))
+#' mst_export_type(tidymst_example("dppr10-cy5_traces.xlsx"))
+#' mst_export_type(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
 mst_export_type <- function(path) {
   check_path(path)
   exported_from <- exported_from(path)

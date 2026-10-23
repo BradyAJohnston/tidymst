@@ -26,7 +26,7 @@ its main table:
 }
 }
 \examples{
-read_mst(nanotempr_example("dppr10-cy5_dose-response-flat.xlsx"))
+read_mst(tidymst_example("dppr10-cy5_dose-response-flat.xlsx"))
 }
 \seealso{
 \code{\link[=read_mst_metadata]{read_mst_metadata()}} for the file-level header, and

@@ -1,4 +1,4 @@
-Package: nanotempr
+Package: tidymst
 Title: Read and Analyse NanoTemper Microscale Thermophoresis Exports
 Version: 0.0.0.9000
 Authors@R: 
@@ -31,7 +31,7 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/BradyAJohnston/nanotempr,
-    https://bradyajohnston.github.io/nanotempr/
-BugReports: https://github.com/BradyAJohnston/nanotempr/issues
+URL: https://github.com/BradyAJohnston/tidymst,
+    https://bradyajohnston.github.io/tidymst/
+BugReports: https://github.com/BradyAJohnston/tidymst/issues
 VignetteBuilder: knitr

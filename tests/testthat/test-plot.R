@@ -1,7 +1,7 @@
 test_that("plots build", {
   skip_if_not_installed("ggplot2")
-  traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
-  doses <- read_mst_dose_response(nanotempr_example(
+  traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
+  doses <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_compare-fnorm.xlsx"
   ))
   doses <- dplyr::filter(doses, target == "atpH-fl")

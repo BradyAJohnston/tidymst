@@ -11,7 +11,7 @@
       Error in `mst_export_type()`:
       ! 'missing.xlsx' doesn't exist.
     Code
-      read_mst_traces(nanotempr_example("dsnppr10_compare-grid.xlsx"))
+      read_mst_traces(tidymst_example("dsnppr10_compare-grid.xlsx"))
     Condition
       Error in `read_mst_traces()`:
       ! `path` must be a "traces" export, not "compare_grid".

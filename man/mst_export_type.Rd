@@ -26,6 +26,6 @@ MO.Affinity Analysis records which view an export was made from in its
 short identifier, which \code{\link[=read_mst]{read_mst()}} uses to pick a reader.
 }
 \examples{
-mst_export_type(nanotempr_example("dppr10-cy5_traces.xlsx"))
-mst_export_type(nanotempr_example("dppr10-cy5_compare-fnorm.xlsx"))
+mst_export_type(tidymst_example("dppr10-cy5_traces.xlsx"))
+mst_export_type(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
 }

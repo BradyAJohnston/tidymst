@@ -1,6 +1,6 @@
 ## This package
 
-nanotempr reads Excel exports from NanoTemper's MO.Affinity Analysis (v2.x)
+tidymst reads Excel exports from NanoTemper's MO.Affinity Analysis (v2.x)
 into tidy tibbles, and fits MST binding models.
 
 - Dependencies are managed with rig (`rproj.toml`, `rproj.lock`). DESCRIPTION

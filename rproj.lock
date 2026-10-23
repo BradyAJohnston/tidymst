@@ -1002,7 +1002,7 @@ groups = ["dev"]
 metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40774789829cd" }
 
 [[targets.packages]]
-package = "nanotempr"
+package = "tidymst"
 version = "0.0.0.9000"
 binary = false
 platform = "source"
@@ -1019,7 +1019,7 @@ sources = ["file:///Users/brady/git/nanotempr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "b194bdb29ff7e23e7a38a53560e75d03afc476ec24e9bc144455b383f7232e92", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
+metadata = { RemoteSha = "7d8a5528f8fcf6d5dc332c4b470e8ea1e78d6e18e6284e81fe074c8dd5dc85ac", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -2019,7 +2019,7 @@ system_requirements = "libuv: libuv-devel (rpm) or libuv1-dev (deb). Alternative
 metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40774789829cd" }
 
 [[targets.packages]]
-package = "nanotempr"
+package = "tidymst"
 version = "0.0.0.9000"
 binary = false
 platform = "source"
@@ -2036,7 +2036,7 @@ sources = ["file:///Users/brady/git/nanotempr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "b194bdb29ff7e23e7a38a53560e75d03afc476ec24e9bc144455b383f7232e92", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
+metadata = { RemoteSha = "7d8a5528f8fcf6d5dc332c4b470e8ea1e78d6e18e6284e81fe074c8dd5dc85ac", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -3032,7 +3032,7 @@ groups = ["dev"]
 metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40774789829cd" }
 
 [[targets.packages]]
-package = "nanotempr"
+package = "tidymst"
 version = "0.0.0.9000"
 binary = false
 platform = "source"
@@ -3049,7 +3049,7 @@ sources = ["file:///Users/brady/git/nanotempr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "b194bdb29ff7e23e7a38a53560e75d03afc476ec24e9bc144455b383f7232e92", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
+metadata = { RemoteSha = "7d8a5528f8fcf6d5dc332c4b470e8ea1e78d6e18e6284e81fe074c8dd5dc85ac", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -4045,7 +4045,7 @@ groups = ["dev"]
 metadata = { RemoteHash = "7088af1117d65c4ceb144b532e323f197fc8243b1d704bf6edf40774789829cd" }
 
 [[targets.packages]]
-package = "nanotempr"
+package = "tidymst"
 version = "0.0.0.9000"
 binary = false
 platform = "source"
@@ -4062,4 +4062,4 @@ sources = ["file:///Users/brady/git/nanotempr/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "b194bdb29ff7e23e7a38a53560e75d03afc476ec24e9bc144455b383f7232e92", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }
+metadata = { RemoteSha = "7d8a5528f8fcf6d5dc332c4b470e8ea1e78d6e18e6284e81fe074c8dd5dc85ac", RemoteType = "local", RemoteUrl = "/Users/brady/git/nanotempr" }

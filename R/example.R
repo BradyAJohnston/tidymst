@@ -1,6 +1,6 @@
 #' Get paths to example exports
 #'
-#' nanotempr comes bundled with example MO.Affinity Analysis exports in its
+#' tidymst comes bundled with example MO.Affinity Analysis exports in its
 #' `inst/extdata` directory. This function makes them easy to access.
 #'
 #' Most of the files are from one experiment: the binding of a Cy5-labelled
@@ -11,11 +11,11 @@
 #' @returns A path, or a character vector of file names.
 #' @export
 #' @examples
-#' nanotempr_example()
-#' nanotempr_example("dppr10-cy5_traces.xlsx")
-nanotempr_example <- function(file = NULL) {
+#' tidymst_example()
+#' tidymst_example("dppr10-cy5_traces.xlsx")
+tidymst_example <- function(file = NULL) {
   check_string(file, allow_null = TRUE)
-  files <- dir(system.file("extdata", package = "nanotempr"))
+  files <- dir(system.file("extdata", package = "tidymst"))
   if (is.null(file)) {
     return(files)
   }
@@ -25,5 +25,5 @@ nanotempr_example <- function(file = NULL) {
       i = "Available files: {.val {files}}."
     ))
   }
-  system.file("extdata", file, package = "nanotempr")
+  system.file("extdata", file, package = "tidymst")
 }

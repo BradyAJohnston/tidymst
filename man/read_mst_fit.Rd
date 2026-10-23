@@ -35,6 +35,6 @@ included in Compare Results (Chart and Grid) and Dose-Response (Grouped)
 exports.
 }
 \examples{
-read_mst_fit(nanotempr_example("dppr10-cy5_compare-fnorm.xlsx"))
-read_mst_fit(nanotempr_example("dsnppr10_compare-delta-fnorm.xlsx"))
+read_mst_fit(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
+read_mst_fit(tidymst_example("dsnppr10_compare-delta-fnorm.xlsx"))
 }

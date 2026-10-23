@@ -30,7 +30,7 @@ bound. This puts merge sets with different baselines on the same scale.
 }
 \examples{
 doses <- read_mst_dose_response(
-  nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+  tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 )
 fits <- mst_fit(doses, .by = target)
 mst_normalise(doses, fits)

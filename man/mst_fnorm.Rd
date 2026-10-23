@@ -32,7 +32,7 @@ Windows include their start and exclude their end, as MO.Affinity Analysis
 does, so the results match its Fnorm for the same windows.
 }
 \examples{
-traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 mst_fnorm(traces, hot = c(19, 20))
 
 # Use a shorter hot window, excluding outliers

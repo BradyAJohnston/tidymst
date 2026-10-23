@@ -1,4 +1,4 @@
-# nanotempr (development version)
+# tidymst (development version)
 
 * Read exports from MO.Affinity Analysis with `read_mst()`, `read_mst_traces()`, `read_mst_capillary_scan()`, `read_mst_dose_response()`, `read_mst_fit()`, `read_mst_fit_curve()` and `read_mst_metadata()`. Detect the type of an export with `mst_export_type()`.
 * Analyse MST data with `mst_fnorm()`, `mst_fit()`, `mst_coefs()`, `mst_curve()` and `mst_normalise()`.

@@ -46,9 +46,9 @@ in UTC, while other exports use the local time of the instrument computer.
 Both are returned as recorded, labelled as UTC.
 }
 \examples{
-read_mst_dose_response(nanotempr_example("dppr10-cy5_compare-fnorm.xlsx"))
+read_mst_dose_response(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))
 
 read_mst_dose_response(
-  nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+  tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 )
 }

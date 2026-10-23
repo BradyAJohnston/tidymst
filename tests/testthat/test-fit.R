@@ -1,11 +1,11 @@
 test_that("Kd fit matches MO.Affinity Analysis", {
-  traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+  traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
   outliers <- dplyr::distinct(dplyr::filter(traces, !included), run, capillary)
-  doses <- read_mst_dose_response(nanotempr_example(
+  doses <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
   ))
   doses <- dplyr::anti_join(doses, outliers, by = c("run", "capillary"))
-  expected <- read_mst_fit(nanotempr_example("dppr10-cy5_compare-fnorm.xlsx"))[
+  expected <- read_mst_fit(tidymst_example("dppr10-cy5_compare-fnorm.xlsx"))[
     1,
   ]
 
@@ -25,7 +25,7 @@ test_that("Kd fit matches MO.Affinity Analysis", {
 })
 
 test_that("Hill fit matches MO.Affinity Analysis", {
-  path <- nanotempr_example("dsnppr10_compare-delta-fnorm.xlsx")
+  path <- tidymst_example("dsnppr10_compare-delta-fnorm.xlsx")
   doses <- dplyr::filter(read_mst_dose_response(path), series == 1)
   expected <- read_mst_fit(path)[1, ]
 
@@ -37,7 +37,7 @@ test_that("Hill fit matches MO.Affinity Analysis", {
 })
 
 test_that("mst_fit() fits groups and fixed target concentrations", {
-  doses <- read_mst_dose_response(nanotempr_example(
+  doses <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
   ))
 
@@ -60,7 +60,7 @@ test_that("mst_fit() warns when fits fail", {
 })
 
 test_that("mst_fit() validates arguments", {
-  doses <- read_mst_dose_response(nanotempr_example(
+  doses <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
   ))
   expect_snapshot(error = TRUE, {
@@ -72,7 +72,7 @@ test_that("mst_fit() validates arguments", {
 })
 
 test_that("mst_curve() spans the fitted range", {
-  doses <- read_mst_dose_response(nanotempr_example(
+  doses <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
   ))
   fits <- mst_fit(doses, .by = target)
@@ -92,19 +92,19 @@ test_that("mst_curve() spans the fitted range", {
 })
 
 test_that("mst_normalise() matches fraction bound exported by MO.Affinity Analysis", {
-  traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+  traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
   outliers <- dplyr::distinct(dplyr::filter(traces, !included), run, capillary)
-  flat <- read_mst_dose_response(nanotempr_example(
+  flat <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
   ))
   flat <- dplyr::anti_join(flat, outliers, by = c("run", "capillary"))
   fits <- mst_fit(dplyr::filter(flat, target == "atpH-fl"), .by = target)
 
-  fnorm <- read_mst_dose_response(nanotempr_example(
+  fnorm <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_compare-fnorm.xlsx"
   ))
   fnorm <- dplyr::filter(fnorm, target == "atpH-fl")
-  bound <- read_mst_dose_response(nanotempr_example(
+  bound <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_compare-fraction-bound.xlsx"
   ))
   bound <- dplyr::filter(bound, target == "atpH-fl")

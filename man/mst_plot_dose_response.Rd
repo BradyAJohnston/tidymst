@@ -31,7 +31,7 @@ Draws the response at each concentration, with error bars if \code{data} has an
 \examples{
 \dontshow{if (rlang::is_installed("ggplot2")) withAutoprint(\{ # examplesIf}
 doses <- read_mst_dose_response(
-  nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+  tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 )
 fits <- mst_fit(doses, .by = target)
 mst_plot_dose_response(doses, fits, colour = target)

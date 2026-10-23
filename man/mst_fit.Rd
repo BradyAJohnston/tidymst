@@ -65,7 +65,7 @@ The \strong{Hill} model describes cooperative binding:
 
 \examples{
 doses <- read_mst_dose_response(
-  nanotempr_example("dppr10-cy5_dose-response-flat.xlsx")
+  tidymst_example("dppr10-cy5_dose-response-flat.xlsx")
 )
 fits <- mst_fit(doses, .by = target)
 fits

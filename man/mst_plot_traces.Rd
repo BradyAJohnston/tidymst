@@ -20,7 +20,7 @@ Draws one line per capillary. Requires ggplot2.
 }
 \examples{
 \dontshow{if (rlang::is_installed("ggplot2")) withAutoprint(\{ # examplesIf}
-traces <- read_mst_traces(nanotempr_example("dppr10-cy5_traces.xlsx"))
+traces <- read_mst_traces(tidymst_example("dppr10-cy5_traces.xlsx"))
 mst_plot_traces(traces)
 \dontshow{\}) # examplesIf}
 }
