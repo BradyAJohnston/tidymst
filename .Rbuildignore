@@ -1,5 +1,4 @@
 ^LICENSE\.md$
-^README\.Rmd$
 ^[.]?air[.]toml$
 ^\.vscode$
 ^AGENTS\.md$
@@ -13,3 +12,6 @@
 ^\.rvenvlib$
 ^\.rvenv$
 ^\.Renviron$
+^vignettes/\.quarto$
+^vignettes/*_files$
+^README\.qmd$

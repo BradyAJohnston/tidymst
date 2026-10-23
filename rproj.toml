@@ -35,7 +35,7 @@ utils = "*"
 ggplot2 = "*"
 testthat = ">= 3.0.0"
 knitr = "*"
-rmarkdown = "*"
+quarto = "*"
 
 [config.roxygen2]
 version = "8.1.1"

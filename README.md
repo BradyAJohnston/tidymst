@@ -1,5 +1,6 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 # tidymst
 
@@ -12,17 +13,17 @@ tidymst reads the Excel files exported by NanoTemper’s MO.Affinity
 Analysis software from microscale thermophoresis (MST) experiments into
 tidy data frames, and analyses them:
 
--   Read MST traces, capillary scans, dose-response data and fits with
-    `read_mst()` and friends. Every export is read into the same
-    standard columns, with concentrations in molar.
--   Recalculate Fnorm from the traces with any hot and cold windows,
-    using `mst_fnorm()`.
--   Fit Kd and Hill binding models with `mst_fit()`, and get the
-    coefficients and curves with `mst_coefs()` and `mst_curve()`.
--   Convert responses to delta Fnorm and fraction bound with
-    `mst_normalise()`.
--   Plot traces and dose-response curves with `mst_plot_traces()` and
-    `mst_plot_dose_response()`, or with your own ggplot2 code.
+- Read MST traces, capillary scans, dose-response data and fits with
+  `read_mst()` and friends. Every export is read into the same standard
+  columns, with concentrations in molar.
+- Recalculate Fnorm from the traces with any hot and cold windows, using
+  `mst_fnorm()`.
+- Fit Kd and Hill binding models with `mst_fit()`, and get the
+  coefficients and curves with `mst_coefs()` and `mst_curve()`.
+- Convert responses to delta Fnorm and fraction bound with
+  `mst_normalise()`.
+- Plot traces and dose-response curves with `mst_plot_traces()` and
+  `mst_plot_dose_response()`, or with your own ggplot2 code.
 
 ## Installation
 
@@ -55,15 +56,15 @@ mst_coefs(fits)
 #>   <chr>   <chr> <chr>                   <dbl>         <dbl>    <dbl>     <dbl>
 #> 1 atpH-fl kd    unbound               1.09e+3 1.74           1.09e+3   1.10e+3
 #> 2 atpH-fl kd    bound                 8.52e+2 2.80           8.46e+2   8.58e+2
-#> 3 atpH-fl kd    kd                    1.26e-8 0.00000000367  5.19e-9   2.00e-8
-#> 4 atpH-fl kd    target_concentration  1.20e-7 0.00000000951  1.00e-7   1.39e-7
+#> 3 atpH-fl kd    kd                    1.26e-8 0.00000000367  6.99e-9   2.27e-8
+#> 4 atpH-fl kd    target_concentration  1.20e-7 0.00000000951  1.02e-7   1.40e-7
 ```
 
 ``` r
 mst_plot_dose_response(fnorm, fits)
 ```
 
-<img src="man/figures/README-plot-1.png" alt="" width="100%" />
+<img src="man/figures/README-plot-1.png" style="width:100.0%" />
 
 See `vignette("tidymst")` for a full walk-through, including how to make
 your own plots.

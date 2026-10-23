@@ -1,10 +1,13 @@
 ---
-output: github_document
+format:
+  gfm:
+    default-image-extension: ""
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -49,7 +52,9 @@ pak::pak("BradyAJohnston/tidymst")
 Read the MST traces exported from MO.Affinity Analysis, calculate Fnorm for
 the capillaries that weren't marked as outliers, and fit a Kd:
 
-```{r example, message = FALSE}
+```{r}
+#| label: example
+#| message: false
 library(tidymst)
 library(dplyr)
 
@@ -63,7 +68,9 @@ fits <- mst_fit(fnorm, .by = target)
 mst_coefs(fits)
 ```
 
-```{r plot, fig.height = 3.5}
+```{r}
+#| label: plot
+#| fig-height: 3.5
 mst_plot_dose_response(fnorm, fits)
 ```
 

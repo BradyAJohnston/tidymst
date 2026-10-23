@@ -13,3 +13,4 @@ docs
 /.rvenv/
 # rig rvenv end
 inst/doc
+**/.quarto/
