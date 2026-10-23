@@ -36,6 +36,41 @@ test_that("Hill fit matches MO.Affinity Analysis", {
   expect_equal(estimate[["hill"]], expected$hill, tolerance = 1e-3)
 })
 
+test_that("fits are robust to rounding differences between platforms", {
+  # This delta Fnorm data has an unbound baseline at zero, which made fits
+  # fail on some platforms but not others.
+  path <- tidymst_example("dsnppr10_compare-delta-fnorm.xlsx")
+  doses <- dplyr::filter(read_mst_dose_response(path), series == 1)
+  expected <- read_mst_fit(path)$ec50[[1]]
+
+  ec50 <- vapply(
+    1:10,
+    \(i) {
+      jittered <- doses
+      jittered$response <- doses$response *
+        (1 + 1e-10 * sin(i * seq_along(doses$response)))
+      coefs <- suppressWarnings(mst_coefs(mst_fit(jittered, model = "hill")))
+      if (nrow(coefs) == 0) NA_real_ else coefs$estimate[coefs$term == "ec50"]
+    },
+    double(1)
+  )
+  expect_equal(ec50, rep(expected, 10), tolerance = 1e-3)
+})
+
+test_that("concentration confidence intervals are positive and asymmetric", {
+  path <- tidymst_example("dsnppr10_compare-delta-fnorm.xlsx")
+  doses <- dplyr::filter(read_mst_dose_response(path), series == 1)
+  coefs <- mst_coefs(mst_fit(doses, model = "hill"))
+  ec50 <- coefs[coefs$term == "ec50", ]
+
+  expect_gt(ec50$conf_low, 0)
+  expect_lt(ec50$conf_low, ec50$estimate)
+  expect_gt(
+    ec50$conf_high - ec50$estimate,
+    ec50$estimate - ec50$conf_low
+  )
+})
+
 test_that("mst_fit() fits groups and fixed target concentrations", {
   doses <- read_mst_dose_response(tidymst_example(
     "dppr10-cy5_dose-response-flat.xlsx"
@@ -56,7 +91,19 @@ test_that("mst_fit() warns when fits fail", {
   doses <- tibble::tibble(ligand_concentration = c(1, 2), response = c(1, 1))
   expect_snapshot(fits <- mst_fit(doses))
   expect_null(fits$fit[[1]])
-  expect_equal(nrow(mst_coefs(fits)), 0)
+
+  coefs <- mst_coefs(fits)
+  expect_equal(nrow(coefs), 0)
+  expect_named(
+    coefs,
+    c("model", "term", "estimate", "std_error", "conf_low", "conf_high")
+  )
+  curve <- mst_curve(fits)
+  expect_equal(nrow(curve), 0)
+  expect_named(
+    curve,
+    c("ligand_concentration", "response", "delta_fnorm", "fraction_bound")
+  )
 })
 
 test_that("mst_fit() validates arguments", {

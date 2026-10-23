@@ -22,7 +22,9 @@ Hill model. A fixed \code{target_concentration} is not included.
 \item \code{estimate} and \code{std_error}: the estimate and its standard error.
 Concentrations are molar.
 \item \code{conf_low} and \code{conf_high}: the confidence interval, from the
-t-distribution.
+t-distribution. Concentrations are fitted on a log scale, so their
+intervals are calculated on that scale and are asymmetric, and their
+standard errors are approximate.
 }
 }
 \description{

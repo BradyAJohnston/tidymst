@@ -169,11 +169,12 @@ meta_row <- function(...) {
 }
 
 # Repeats each row of `meta` to sit alongside its block of `data`.
-expand_meta <- function(meta, data) {
+# `ptype` gives the columns of `data` when it's empty.
+expand_meta <- function(meta, data, ptype = NULL) {
   sizes <- vapply(data, vctrs::vec_size, integer(1))
   vctrs::vec_cbind(
     vctrs::vec_slice(meta, rep(seq_len(nrow(meta)), sizes)),
-    vctrs::vec_rbind(!!!data)
+    vctrs::vec_rbind(!!!data, .ptype = ptype)
   )
 }
 

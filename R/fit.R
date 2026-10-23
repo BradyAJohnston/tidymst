@@ -123,9 +123,20 @@ fit_binding <- function(
   concentration <- concentration[ok]
   response <- response[ok]
 
-  # Rescale so all parameters are of order 1, which nls() needs to converge.
-  scale <- exp(mean(log(concentration)))
-  df <- data.frame(x = concentration / scale, y = response)
+  # nls() converges unreliably unless parameters are of order 1, and its
+  # relative convergence test fails for a baseline at zero (as in delta Fnorm
+  # data). So concentrations are rescaled and fitted on a log scale, which also
+  # keeps them positive, and the response is standardised.
+  x_scale <- exp(mean(log(concentration)))
+  y_centre <- mean(response)
+  y_scale <- stats::sd(response)
+  if (is.na(y_scale) || y_scale == 0) {
+    cli::cli_abort("The response doesn't vary.")
+  }
+  df <- data.frame(
+    x = concentration / x_scale,
+    y = (response - y_centre) / y_scale
+  )
 
   unbound <- mean(df$y[df$x == min(df$x)])
   bound <- mean(df$y[df$x == max(df$x)])
@@ -133,33 +144,37 @@ fit_binding <- function(
 
   if (model == "kd") {
     if (is.null(target_concentration)) {
-      formula <- y ~ kd_model(x, unbound, bound, kd, target_concentration)
+      formula <- y ~
+        kd_model(x, unbound, bound, exp(log_kd), exp(log_target_concentration))
       start <- list(
         unbound = unbound,
         bound = bound,
-        kd = midpoint,
-        target_concentration = midpoint
+        log_kd = log(midpoint),
+        log_target_concentration = log(midpoint)
       )
     } else {
-      df$target <- target_concentration / scale
-      formula <- y ~ kd_model(x, unbound, bound, kd, target)
-      start <- list(unbound = unbound, bound = bound, kd = midpoint)
+      df$target <- target_concentration / x_scale
+      formula <- y ~ kd_model(x, unbound, bound, exp(log_kd), target)
+      start <- list(unbound = unbound, bound = bound, log_kd = log(midpoint))
     }
   } else {
-    formula <- y ~ hill_model(x, unbound, bound, ec50, hill)
-    start <- list(unbound = unbound, bound = bound, ec50 = midpoint, hill = 1)
+    formula <- y ~ hill_model(x, unbound, bound, exp(log_ec50), hill)
+    start <- list(
+      unbound = unbound,
+      bound = bound,
+      log_ec50 = log(midpoint),
+      hill = 1
+    )
   }
   # nls() can loop indefinitely when there are too few points.
   if (nrow(df) <= length(start)) {
     cli::cli_abort("Need more points than parameters to fit.")
   }
-  lower <- c(-Inf, -Inf, rep(1e-8, length(start) - 2))
 
   fit <- stats::nls(
     formula,
     data = df,
     start = start,
-    lower = lower,
     algorithm = "port",
     control = stats::nls.control(maxiter = 500)
   )
@@ -168,7 +183,9 @@ fit_binding <- function(
     list(
       nls = fit,
       model = model,
-      scale = scale,
+      x_scale = x_scale,
+      y_centre = y_centre,
+      y_scale = y_scale,
       target_concentration = target_concentration,
       range = range(concentration),
       n = nrow(df),
@@ -187,17 +204,38 @@ hill_model <- function(x, unbound, bound, ec50, hill) {
   unbound + (bound - unbound) / (1 + (ec50 / x)^hill)
 }
 
-concentration_terms <- c("kd", "target_concentration", "ec50")
-
-# Estimates in the original units.
-fit_estimates <- function(fit) {
+# Estimates and confidence intervals in the original units. Concentrations are
+# fitted on a log scale, so their intervals are calculated on that scale and
+# their standard errors approximated with the delta method.
+fit_estimates <- function(fit, conf_level = 0.95) {
   coefs <- summary(fit$nls)$coefficients
-  scale <- ifelse(rownames(coefs) %in% concentration_terms, fit$scale, 1)
-  list(
-    term = rownames(coefs),
-    estimate = coefs[, "Estimate"] * scale,
-    std_error = coefs[, "Std. Error"] * scale,
-    df = stats::df.residual(fit$nls)
+  term <- rownames(coefs)
+  estimate <- coefs[, "Estimate"]
+  std_error <- coefs[, "Std. Error"]
+  q <- stats::qt((1 + conf_level) / 2, stats::df.residual(fit$nls))
+  conf_low <- estimate - q * std_error
+  conf_high <- estimate + q * std_error
+
+  log_scale <- startsWith(term, "log_")
+  untransform <- \(x) exp(x) * fit$x_scale
+  estimate[log_scale] <- untransform(estimate[log_scale])
+  std_error[log_scale] <- estimate[log_scale] * std_error[log_scale]
+  conf_low[log_scale] <- untransform(conf_low[log_scale])
+  conf_high[log_scale] <- untransform(conf_high[log_scale])
+
+  baseline <- term %in% c("unbound", "bound")
+  unstandardise <- \(x) x * fit$y_scale + fit$y_centre
+  estimate[baseline] <- unstandardise(estimate[baseline])
+  std_error[baseline] <- std_error[baseline] * fit$y_scale
+  conf_low[baseline] <- unstandardise(conf_low[baseline])
+  conf_high[baseline] <- unstandardise(conf_high[baseline])
+
+  tibble::tibble(
+    term = sub("^log_", "", term),
+    estimate = unname(estimate),
+    std_error = unname(std_error),
+    conf_low = unname(conf_low),
+    conf_high = unname(conf_high)
   )
 }
 
@@ -232,7 +270,9 @@ predict_fit <- function(fit, x) {
 #'   * `estimate` and `std_error`: the estimate and its standard error.
 #'     Concentrations are molar.
 #'   * `conf_low` and `conf_high`: the confidence interval, from the
-#'     t-distribution.
+#'     t-distribution. Concentrations are fitted on a log scale, so their
+#'     intervals are calculated on that scale and are asymmetric, and their
+#'     standard errors are approximate.
 #' @export
 #' @examples
 #' doses <- read_mst_dose_response(
@@ -245,18 +285,15 @@ mst_coefs <- function(fits, conf_level = 0.95) {
   check_number_decimal(conf_level, min = 0, max = 1)
 
   ok <- !vapply(fits$fit, is.null, logical(1))
-  rows <- lapply(fits$fit[ok], \(fit) {
-    est <- fit_estimates(fit)
-    q <- stats::qt((1 + conf_level) / 2, est$df)
-    tibble::tibble(
-      term = est$term,
-      estimate = est$estimate,
-      std_error = est$std_error,
-      conf_low = est$estimate - q * est$std_error,
-      conf_high = est$estimate + q * est$std_error
-    )
-  })
-  expand_meta(fits[ok, c(fit_by(fits), "model")], rows)
+  rows <- lapply(fits$fit[ok], \(fit) fit_estimates(fit, conf_level))
+  ptype <- tibble::tibble(
+    term = character(),
+    estimate = double(),
+    std_error = double(),
+    conf_low = double(),
+    conf_high = double()
+  )
+  expand_meta(fits[ok, c(fit_by(fits), "model")], rows, ptype = ptype)
 }
 
 #' Predict fitted binding curves
@@ -294,7 +331,18 @@ mst_curve <- function(fits, n = 100) {
       fraction_bound = (y - p$unbound) / (p$bound - p$unbound)
     )
   })
-  expand_meta(fits[ok, fit_by(fits)], rows)
+  concentration_name <- if (any(ok)) {
+    fits$fit[ok][[1]]$concentration_name
+  } else {
+    "ligand_concentration"
+  }
+  ptype <- tibble::tibble(
+    !!concentration_name := double(),
+    response = double(),
+    delta_fnorm = double(),
+    fraction_bound = double()
+  )
+  expand_meta(fits[ok, fit_by(fits)], rows, ptype = ptype)
 }
 
 #' Normalise responses to delta Fnorm and fraction bound
