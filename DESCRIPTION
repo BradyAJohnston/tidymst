@@ -1,0 +1,37 @@
+Package: nanotempr
+Title: Read and Analyse NanoTemper Microscale Thermophoresis Exports
+Version: 0.0.0.9000
+Authors@R: 
+    person("Brady", "Johnston", , "brady.johnston@me.com", role = c("aut", "cre"))
+Description: Read the Excel exports written by NanoTemper's MO.Affinity
+    Analysis software (MST traces, capillary scans, dose-response and fit
+    results) into tidy data frames, and analyse them: recompute normalised
+    fluorescence (Fnorm) from traces, fit Kd and Hill binding models, and
+    convert responses to delta Fnorm or fraction bound.
+License: MIT + file LICENSE
+Depends: 
+    R (>= 4.1.0)
+Imports: 
+    cli,
+    dplyr (>= 1.1.0),
+    readxl,
+    rlang (>= 1.1.0),
+    stats,
+    tibble,
+    tidyselect,
+    utils,
+    vctrs
+Suggests: 
+    ggplot2,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/roxygen2/version: 8.1.1
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-GB
+Roxygen: list(markdown = TRUE)
+URL: https://github.com/BradyAJohnston/nanotempr,
+    https://bradyajohnston.github.io/nanotempr/
+BugReports: https://github.com/BradyAJohnston/nanotempr/issues
+VignetteBuilder: knitr

@@ -1,0 +1,23 @@
+url: https://bradyajohnston.github.io/nanotempr/
+template:
+  bootstrap: 5
+
+reference:
+- title: Read exports
+  contents:
+  - read_mst
+  - starts_with("read_mst_")
+  - mst_export_type
+  - nanotempr_example
+
+- title: Analyse
+  contents:
+  - mst_fnorm
+  - mst_fit
+  - mst_coefs
+  - mst_curve
+  - mst_normalise
+
+- title: Plot
+  contents:
+  - starts_with("mst_plot_")

@@ -1,0 +1,352 @@
+---
+title: "Get started with nanotempr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get started with nanotempr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4.5
+)
+has_ggplot <- rlang::is_installed("ggplot2")
+```
+
+nanotempr reads the Excel files that NanoTemper's MO.Affinity Analysis
+software exports from microscale thermophoresis (MST) experiments, and turns
+them into ordinary R data frames. From there you can recalculate Fnorm, fit
+binding curves to get a Kd, and make your own plots.
+
+This guide walks through a whole analysis. It assumes you have used R a
+little, for example to make a basic plot, but not much more.
+
+## Setup
+
+Install nanotempr from GitHub (you only need to do this once):
+
+```{r, eval = FALSE}
+install.packages("pak")
+pak::pak("BradyAJohnston/nanotempr")
+```
+
+Then load it at the start of every script, along with dplyr (for working with
+data frames) and ggplot2 (for plotting):
+
+```{r setup, message = FALSE}
+library(nanotempr)
+library(dplyr)
+library(ggplot2)
+```
+
+## Exporting your data from MO.Affinity Analysis
+
+nanotempr reads the `.xlsx` files that MO.Affinity Analysis writes when you
+export data. Which export you need depends on what you want to do:
+
+| To get                                   | Export from                          | Read with                    |
+|------------------------------------------|--------------------------------------|------------------------------|
+| The MST trace of every capillary         | MST Traces                           | `read_mst_traces()`          |
+| The Fnorm of every capillary             | Dose-Response (Flat)                 | `read_mst_dose_response()`   |
+| Mean responses, and MO.Affinity's fit    | Compare Results (Chart)              | `read_mst_dose_response()`, `read_mst_fit()` |
+| A table of MO.Affinity's fits            | Compare Results (Grid)               | `read_mst_fit()`             |
+| The capillary scans                      | Capillary Scan                       | `read_mst_capillary_scan()`  |
+
+If you're not sure what a file is, `read_mst()` works it out for you and
+picks the right reader.
+
+The MST Traces export is the most useful: it has the raw data and records
+which capillaries you marked as outliers, so you can redo the whole analysis
+in R.
+
+## Reading data
+
+nanotempr comes with some example files, from an experiment measuring the
+binding of a protein (dPPR10-Cy5) to two RNAs (atpH-fl and NEAT1-fl).
+`nanotempr_example()` gives the path to one of them:
+
+```{r}
+path <- nanotempr_example("dppr10-cy5_traces.xlsx")
+```
+
+With your own data, `path` is just the location of your file, in quotes:
+
+```{r, eval = FALSE}
+path <- "C:/Users/me/Documents/MST/2024-05-01_traces.xlsx"
+```
+
+Read the traces with `read_mst_traces()`:
+
+```{r}
+traces <- read_mst_traces(path)
+traces
+```
+
+The result is a *tibble*, a kind of data frame. Each row is one time point
+from one capillary, and each column is one variable. The columns are the same
+whichever file you read:
+
+* `merge_set`, `run` and `capillary` say where the measurement came from.
+* `target`, `target_concentration`, `ligand` and `ligand_concentration`
+  describe the sample. Concentrations are always in molar (M), so 50 nM is
+  `5e-08`.
+* `included` is `FALSE` for capillaries you marked as outliers.
+* `time` (in seconds) and `fluorescence` are the trace itself.
+
+To see the whole table in RStudio or Positron, use `View(traces)`. To pull out
+one column, use `$`:
+
+```{r}
+unique(traces$target)
+```
+
+## Looking at the traces
+
+`mst_plot_traces()` draws every trace, coloured by ligand concentration:
+
+```{r, eval = has_ggplot}
+mst_plot_traces(traces)
+```
+
+The traces for the two RNAs are drawn on top of each other. To split them
+into separate panels, add `facet_wrap()` with `+`, as with any ggplot:
+
+```{r, eval = has_ggplot}
+mst_plot_traces(traces) +
+  facet_wrap(~target)
+```
+
+## Calculating Fnorm
+
+Fnorm compares the fluorescence after the IR laser switches on (the "hot"
+window) to before it (the "cold" window). It's given in per mille (‰), so 1000
+means no change.
+
+MO.Affinity Analysis records the windows it used, which you can see with
+`read_mst_metadata()`:
+
+```{r}
+read_mst_metadata(path) |>
+  select(cold_start, cold_end, hot_start, hot_end)
+```
+
+The `|>` symbol is called the *pipe*. It passes the result on the left into
+the function on the right, so you can read the code as "read the metadata,
+*then* select these columns".
+
+`mst_fnorm()` calculates Fnorm for each capillary. First, use `filter()` to
+keep only the capillaries that weren't marked as outliers:
+
+```{r}
+fnorm <- traces |>
+  filter(included) |>
+  mst_fnorm(hot = c(19, 20), cold = c(-1, 0))
+
+fnorm
+```
+
+Now there is one row per capillary, and the Fnorm is in the `response`
+column. These values match those MO.Affinity Analysis calculates for the same
+windows, but here you are free to try others, such as `hot = c(1.5, 2.5)`.
+
+## Fitting a binding curve
+
+`mst_fit()` fits a binding model to the Fnorm values. Use `.by` to fit each
+RNA separately:
+
+```{r}
+fits <- mst_fit(fnorm, model = "kd", .by = target)
+fits
+```
+
+There's one row per RNA. `n` is the number of capillaries fitted and
+`sigma` is the scatter of the points around the curve. The warning tells us
+that one fit failed: NEAT1-fl's `fit` is empty (`NULL`). As we'll see in the
+plot below, NEAT1-fl's Fnorm barely changes with concentration, so there is no
+binding curve to fit. A failed fit is never an error, so one bad group won't
+stop the others being fitted.
+
+There are two models:
+
+* `model = "kd"` (the default) fits the standard 1:1 binding model, taking
+  into account the concentration of the fluorescent target.
+* `model = "hill"` fits the Hill equation, giving an EC50 and Hill
+  coefficient, for cooperative binding.
+
+By default, the Kd model estimates the target concentration too. If you know
+it, setting it gives a more reliable Kd, for example
+`mst_fit(fnorm, target_concentration = 50e-9, .by = target)`.
+
+The `fit` column holds the fitted models. Get the fitted values with
+`mst_coefs()`:
+
+```{r}
+coefs <- mst_coefs(fits)
+coefs
+```
+
+Each row is one parameter (`term`) of one fit, with its `estimate`, standard
+error and 95% confidence interval. To get just the Kds, in nM:
+
+```{r}
+coefs |>
+  filter(term == "kd") |>
+  mutate(kd_nM = estimate * 1e9) |>
+  select(target, kd_nM)
+```
+
+atpH-fl binds with a Kd of around 13 nM, matching the value MO.Affinity
+Analysis gives for the same data. Always plot your data to check a fit!
+
+## Plotting dose-response curves
+
+`mst_plot_dose_response()` plots the data, with the fitted curves if you give
+it `fits`:
+
+```{r, eval = has_ggplot}
+mst_plot_dose_response(fnorm, fits, colour = target)
+```
+
+## Comparing curves with fraction bound
+
+Different targets often have different baselines, which makes them hard to
+compare. `mst_normalise()` adds two columns using the fits:
+
+* `delta_fnorm`: Fnorm relative to the unbound state, so every curve starts
+  at 0.
+* `fraction_bound`: the fraction of target bound, from 0 (unbound) to 1
+  (fully bound).
+
+```{r}
+normalised <- mst_normalise(fnorm, fits)
+normalised |>
+  select(target, ligand_concentration, response, delta_fnorm, fraction_bound)
+```
+
+NEAT1-fl has no fit, so its `delta_fnorm` and `fraction_bound` are `NA`
+(missing).
+
+## Making your own plots
+
+The plotting functions in nanotempr are a quick way to look at your data, but
+for a figure you'll probably want to make your own. Because every function
+returns an ordinary data frame, you can plot them with ggplot2 like any other
+data.
+
+A ggplot is built in layers, added with `+`:
+
+1. `ggplot()` says which data to use, and `aes()` which columns go on which
+   axis or colour.
+2. `geom_*()` functions draw things: `geom_point()` for points,
+   `geom_line()` for lines.
+3. Other functions change the scales, labels and appearance.
+
+Here is a plot of the fraction bound for atpH-fl, step by step. First, keep
+just the atpH-fl data, and convert the concentration to nM, which reads better
+on an axis:
+
+```{r}
+atph <- normalised |>
+  filter(target == "atpH-fl") |>
+  mutate(concentration_nM = ligand_concentration * 1e9)
+```
+
+Then plot the points, with the concentration on a log scale:
+
+```{r, eval = has_ggplot}
+ggplot(atph, aes(x = concentration_nM, y = fraction_bound)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+To add the fitted curve, get its points with `mst_curve()`. It has the same
+columns as the data (`ligand_concentration`, `response`, `delta_fnorm`,
+`fraction_bound`), so convert it the same way:
+
+```{r}
+curve <- mst_curve(fits) |>
+  filter(target == "atpH-fl") |>
+  mutate(concentration_nM = ligand_concentration * 1e9)
+```
+
+Now add it as a line. Each layer can use its own data, given with `data =`:
+
+```{r, eval = has_ggplot}
+ggplot(atph, aes(x = concentration_nM, y = fraction_bound)) +
+  geom_line(data = curve) +
+  geom_point() +
+  scale_x_log10() +
+  labs(
+    x = "dPPR10-Cy5 concentration (nM)",
+    y = "Fraction bound",
+    title = "dPPR10-Cy5 binding to atpH-fl"
+  ) +
+  theme_bw()
+```
+
+The individual capillaries can look noisy. To plot the mean and standard
+deviation of each concentration instead, summarise the data first. `.by`
+makes `summarise()` calculate the mean and standard deviation separately for
+each concentration:
+
+```{r}
+atph_mean <- atph |>
+  summarise(
+    mean = mean(fraction_bound),
+    sd = sd(fraction_bound),
+    .by = concentration_nM
+  )
+atph_mean
+```
+
+Then draw error bars with `geom_errorbar()`:
+
+```{r, eval = has_ggplot}
+ggplot(atph_mean, aes(x = concentration_nM, y = mean)) +
+  geom_line(data = curve, aes(y = fraction_bound)) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.1) +
+  geom_point(size = 2) +
+  scale_x_log10() +
+  labs(x = "dPPR10-Cy5 concentration (nM)", y = "Fraction bound") +
+  theme_bw()
+```
+
+When you're happy with a plot, save it with `ggsave()`. It saves the last plot
+you made, at a size you choose (in inches by default):
+
+```{r, eval = FALSE}
+ggsave("atph-binding.png", width = 5, height = 4, dpi = 300)
+ggsave("atph-binding.pdf", width = 5, height = 4)
+```
+
+## Saving results
+
+To use the results in other software, such as Excel or Prism, save them as a
+CSV file:
+
+```{r, eval = FALSE}
+write.csv(fnorm, "fnorm.csv", row.names = FALSE)
+write.csv(coefs, "binding-fits.csv", row.names = FALSE)
+```
+
+## Using MO.Affinity Analysis's own results
+
+If you have already done your analysis in MO.Affinity Analysis, you can read
+its results directly instead of redoing them. A Compare Results (Chart) export
+contains the mean response at each concentration and the fit:
+
+```{r}
+compare <- nanotempr_example("dppr10-cy5_compare-fnorm.xlsx")
+
+read_mst_dose_response(compare)
+
+read_mst_fit(compare) |>
+  select(target, model, kd, kd_confidence)
+```
+
+These data frames have the same columns as the ones above, so you can plot
+them in the same way.

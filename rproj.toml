@@ -1,0 +1,49 @@
+[project]
+name = "nanotempr"
+version = "0.0.0.9000"
+type = "package"
+title = "Read and Analyse NanoTemper Microscale Thermophoresis Exports"
+description = '''
+Read the Excel exports written by NanoTemper's MO.Affinity
+Analysis software (MST traces, capillary scans, dose-response and fit
+results) into tidy data frames, and analyse them: recompute normalised
+fluorescence (Fnorm) from traces, fit Kd and Hill binding models, and
+convert responses to delta Fnorm or fraction bound.'''
+license = "MIT + file LICENSE"
+
+[[project.authors]]
+name = "Brady Johnston"
+email = "brady.johnston@me.com"
+roles = [
+    "aut",
+    "cre",
+]
+
+[dependencies]
+R = ">= 4.1.0"
+cli = "*"
+dplyr = ">= 1.1.0"
+readxl = "*"
+rlang = ">= 1.1.0"
+stats = "*"
+tibble = "*"
+vctrs = "*"
+tidyselect = "*"
+utils = "*"
+
+[dependency-groups.dev]
+ggplot2 = "*"
+testthat = ">= 3.0.0"
+knitr = "*"
+rmarkdown = "*"
+
+[config.roxygen2]
+version = "8.1.1"
+
+[config.testthat]
+edition = 3
+
+[description]
+Encoding = "UTF-8"
+Language = "en-GB"
+Roxygen = "list(markdown = TRUE)"

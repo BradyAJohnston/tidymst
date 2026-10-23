@@ -1,0 +1,15 @@
+^LICENSE\.md$
+^README\.Rmd$
+^[.]?air[.]toml$
+^\.vscode$
+^AGENTS\.md$
+^\.claude$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^rproj\.toml$
+^rproj\.lock$
+^\.rvenvlib$
+^\.rvenv$
+^\.Renviron$
