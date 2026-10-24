@@ -1,5 +1,9 @@
 # Changelog
 
+## tidymst 0.1.0
+
+- No user-facing changes since 0.0.1.
+
 ## tidymst 0.0.1
 
 - Read MO.Control (`.moc`) and MO.Affinity Analysis (`.nta`) project
