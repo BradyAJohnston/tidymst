@@ -1,3 +1,7 @@
+# tidymst 0.1.0
+
+* No user-facing changes since 0.0.1.
+
 # tidymst 0.0.1
 
 * Read MO.Control (`.moc`) and MO.Affinity Analysis (`.nta`) project files, which are SQLite databases, with `read_mst()`, `read_mst_traces()`, `read_mst_capillary_scan()`, `read_mst_dose_response()`, `read_mst_fit()` and `read_mst_metadata()`. Projects give raw fluorescence counts and the fits as last saved, with standard errors.

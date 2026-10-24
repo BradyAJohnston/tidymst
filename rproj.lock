@@ -1150,7 +1150,7 @@ metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7d
 
 [[targets.packages]]
 package = "tidymst"
-version = "0.0.1"
+version = "0.1.0"
 binary = false
 platform = "source"
 dependencies = [
@@ -1168,7 +1168,7 @@ sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "0648693a46be99cc489d4cd3eaac68c34d312193d118be6107c5ec632250cdb5", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
+metadata = { RemoteSha = "196a555375891e4df1ff4f2324648fd7e7959e28a2129eaebe018a2967c57c6e", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -2317,7 +2317,7 @@ metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7d
 
 [[targets.packages]]
 package = "tidymst"
-version = "0.0.1"
+version = "0.1.0"
 binary = false
 platform = "source"
 dependencies = [
@@ -2335,7 +2335,7 @@ sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "0648693a46be99cc489d4cd3eaac68c34d312193d118be6107c5ec632250cdb5", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
+metadata = { RemoteSha = "196a555375891e4df1ff4f2324648fd7e7959e28a2129eaebe018a2967c57c6e", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -3479,7 +3479,7 @@ metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7d
 
 [[targets.packages]]
 package = "tidymst"
-version = "0.0.1"
+version = "0.1.0"
 binary = false
 platform = "source"
 dependencies = [
@@ -3497,7 +3497,7 @@ sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "0648693a46be99cc489d4cd3eaac68c34d312193d118be6107c5ec632250cdb5", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
+metadata = { RemoteSha = "196a555375891e4df1ff4f2324648fd7e7959e28a2129eaebe018a2967c57c6e", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
 
 [[targets]]
 r_version = "4.6.1"
@@ -4641,7 +4641,7 @@ metadata = { RemoteHash = "a5fcec17ba772a561a7375ca8fd966bdd5f20dd4e89b4dae07d7d
 
 [[targets.packages]]
 package = "tidymst"
-version = "0.0.1"
+version = "0.1.0"
 binary = false
 platform = "source"
 dependencies = [
@@ -4659,4 +4659,4 @@ sources = ["file:///Users/brady/git/tidymst/"]
 target = ""
 groups = ["main"]
 is_project = true
-metadata = { RemoteSha = "0648693a46be99cc489d4cd3eaac68c34d312193d118be6107c5ec632250cdb5", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }
+metadata = { RemoteSha = "196a555375891e4df1ff4f2324648fd7e7959e28a2129eaebe018a2967c57c6e", RemoteType = "local", RemoteUrl = "/Users/brady/git/tidymst" }

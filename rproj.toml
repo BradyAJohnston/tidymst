@@ -1,6 +1,6 @@
 [project]
 name = "tidymst"
-version = "0.0.1"
+version = "0.1.0"
 type = "package"
 title = "Read and Analyse NanoTemper Microscale Thermophoresis Exports"
 description = '''
